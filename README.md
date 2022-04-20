@@ -25,4 +25,3 @@ Bonus Gene set analysis [Kim]
 -	clusterProfiler
 
 Happy hour
-![image](https://user-images.githubusercontent.com/21342185/164321062-db8bc0eb-735a-4992-b3ed-dceee8841d24.png)
