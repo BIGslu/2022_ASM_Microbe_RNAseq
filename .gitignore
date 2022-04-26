@@ -40,3 +40,6 @@ vignettes/*.pdf
 
 # MAC
 *.DS_Store
+
+# Raw data before de-identification
+0_data/RSTR_RNAseq_data_combined_uniqueFULLID_weights.RData
