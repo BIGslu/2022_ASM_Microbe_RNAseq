@@ -4,7 +4,7 @@ Outline
 9-12	 Intro R & tidyverse [Candace, Kelly]
 -	R / RStudio, Rprojects, etc
 -	Verbs and syntax of tidyverse
-o	Select, filter, mutate, rename, ggplot
+    -	Select, filter, mutate, rename, ggplot
 
 12-1 Lunch
 
