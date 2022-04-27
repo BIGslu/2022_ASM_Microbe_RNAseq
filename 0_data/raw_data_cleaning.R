@@ -50,6 +50,12 @@ count.ltbi <- count %>%
   select(-libID_orig) %>% 
   pivot_wider(names_from = "libID")
 
+#Add total sequences
+tot.seqs <- count.ltbi %>% 
+  pivot_longer(-hgnc_symbol, names_to = "libID") %>% 
+  group_by(libID) %>% 
+  summarise(total_seq = sum(value, na.rm=TRUE))
+
 #### Kinship ####
 kin <- read_csv("0_data/kinship_Hawn_all.csv") %>% 
   inner_join(distinct(meta.ltbi10, FULLIDNO, ptID), 
@@ -68,7 +74,8 @@ kin <- read_csv("0_data/kinship_Hawn_all.csv") %>%
 write_csv(count.ltbi, file="0_data/raw_counts.csv")
 
 meta.ltbi10 %>% 
-  select(libID, ptID, condition, age_dys, sex, ptID_old) %>% 
+  left_join(tot.seqs) %>% 
+  select(libID, ptID, condition, age_dys, sex, ptID_old, total_seq) %>% 
   arrange(ptID, condition) %>% 
   write_csv(file="0_data/metadata.csv")
 
