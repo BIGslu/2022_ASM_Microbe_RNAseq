@@ -19,23 +19,28 @@ meta.ltbi <- meta %>%
            RS_SUB_ACCESSION_NO %in% samp$RS_SUB_ACCESSION_NO) %>% 
   #Select variables of interest
   select(FULLIDNO, RS_SUB_ACCESSION_NO, M0_KCVSEX, 
-         KCHCA_AGE_YR_CURRENT, avgBMI, RISK_SCORE) %>% 
+         KCHCA_AGE_YR_CURRENT) %>% 
   #Add library ID for MEDIA and TB
   inner_join(samp) %>% 
   #rename to short names
-  rename(sex=M0_KCVSEX, age_yrs=KCHCA_AGE_YR_CURRENT, bmi=avgBMI,
-         risk=RISK_SCORE)
+  rename(sex=M0_KCVSEX, age_yrs=KCHCA_AGE_YR_CURRENT) 
+  
 
 # Select 10 random donors
 set.seed(8759)
 samp10 <- sample(unique(meta.ltbi$RS_SUB_ACCESSION_NO), size=10, 
                  replace=FALSE)
+
 meta.ltbi10 <- meta.ltbi %>% 
   filter(RS_SUB_ACCESSION_NO %in% samp10) %>% 
   #De-identify
   mutate(ptID = paste0("pt", 
                        str_pad(as.numeric(factor(RS_SUB_ACCESSION_NO)),2,pad = "0")),
-         libID = paste(ptID, condition, sep="_")) 
+         libID = paste(ptID, condition, sep="_")) %>% 
+  #add variables for introR
+  mutate(age_dys = age_yrs*365,
+         ptID_old = paste0("pt", 
+                           str_pad(as.numeric(factor(RS_SUB_ACCESSION_NO)),5,pad = "0")))
   
 
 #Filter and rename counts table
@@ -63,7 +68,7 @@ kin <- read_csv("0_data/kinship_Hawn_all.csv") %>%
 write_csv(count.ltbi, file="0_data/raw_counts.csv")
 
 meta.ltbi10 %>% 
-  select(libID, ptID, condition, age_yrs, sex, bmi, risk) %>% 
+  select(libID, ptID, condition, age_dys, sex, ptID_old) %>% 
   arrange(ptID, condition) %>% 
   write_csv(file="0_data/metadata.csv")
 
