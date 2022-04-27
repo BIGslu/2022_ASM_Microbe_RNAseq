@@ -44,3 +44,4 @@ vignettes/*.pdf
 # Raw data before de-identification
 0_data/2020.11.20RSTR_Hawn_metadata.csv
 0_data/Hawn_UgandaMacrophage_counts.csv
+0_data/kinship_Hawn_all.csv
