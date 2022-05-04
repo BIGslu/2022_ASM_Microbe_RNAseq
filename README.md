@@ -1,7 +1,7 @@
 # 2022_ASM_Microbe_RNAseq
 
 Outline
-9-12	 Intro R & tidyverse [Candace, Kelly]
+9-12	 Intro R & tidyverse [Kelly]
 -	R / RStudio, Rprojects, etc
 -	Verbs and syntax of tidyverse
     -	Select, filter, mutate, rename, ggplot
