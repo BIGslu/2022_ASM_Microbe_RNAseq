@@ -20,11 +20,10 @@ keypoints:
 - "Use `read_csv` to read tabular data in R."
 - "Geometries are the visual elements drawn on data visualizations (lines, points, etc.), and aesthetics are the visual properties of those geometries (color, position, etc.)."
 - "Use `ggplot()` and geoms to create data visualizations, and save them using `ggsave()`."
-
 ---
 
 ```{r, include=FALSE}
-source("../bin/chunk-options.R")
+source("1_introR/chunk-options.R")
 knitr_fig_path("01-")
 ```
 
@@ -254,7 +253,7 @@ Let's start by looking at the code RStudio ran for us by copying and pasting the
 gapminder_1997 <- read_csv("gapminder_1997.csv")
 ```
 ```{r consoleReadEval, echo = FALSE}
-gapminder_1997 <- read_csv("data/gapminder_1997.csv")
+gapminder_1997 <- read_csv("1_introR/data/gapminder_1997.csv")
 ```
 
 You should now have a line of text in your code file that started with `gapminder` and ends with a `)` symbol.
@@ -326,7 +325,7 @@ Looking back at the command in our code file, the second thing we see is a `<-` 
 
 The next part of the command is `read_csv("gapminder_1997.csv")`. This has a few different key parts. The first part is the `read_csv` function. You call a function in R by typing it's name followed by opening then closing parenthesis. Each function has a purpose, which is often hinted at by the name of the function. Let's try to run the function without anything inside the parenthesis.
 
-```{r FunctionAlone}
+```{r FunctionAlone, error=TRUE}
 read_csv()
 ```
 
@@ -392,7 +391,7 @@ use argument names if you want:
 read_csv(file = 'gapminder_1997.csv')
 ```
 ```{r FunctionAndArgumentEval, echo = FALSE}
-read_csv(file = 'data/gapminder_1997.csv')
+read_csv(file = '1_introR/data/gapminder_1997.csv')
 ```
 
 > ## Position of the arguments in functions
@@ -433,7 +432,7 @@ Sometimes it is helpful - or even necessary - to include the argument name, but 
 >  Sys.Date()  # outputs the current date
 >  getwd()     # outputs our current working directory (folder)
 >  sum(5, 6)   # adds numbers
->  read_csv(file = 'gapminder_1997.csv') # reads in csv file
+>  read_csv(file = '1_introR/data/gapminder_1997.csv') # reads in csv file
 > ```
 {: .callout}
 
@@ -760,7 +759,7 @@ To start, we will read in the data without using the interactive RStudio file na
 # required for below code chunks to work.
 # currently, gapminder isn't in a data folder on learners' machines
 # because they haven't done the unix lesson yet.
-gapminder_data <- read_csv("data/gapminder_data.csv")
+gapminder_data <- read_csv("1_introR/data/gapminder_data.csv")
 ```
 
 > ## Read in your own data

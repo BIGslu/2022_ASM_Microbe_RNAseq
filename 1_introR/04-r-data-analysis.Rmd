@@ -22,7 +22,7 @@ keypoints:
 ---
 
 ```{r, include=FALSE}
-source("../bin/chunk-options.R")
+source("1_introR/chunk-options.R")
 knitr_fig_path("04-")
 ```
 
@@ -54,7 +54,7 @@ First, we will create a new RScript file for our work. Open RStudio. Choose "Fil
 
 ### Loading in the data
 
-We will start by importing the complete gapminder dataset that we used yesterday into our fresh new R session. Yesterday we did this using a "point-and-click" commands. Today let's type them into the console ourselves: `gapminder_data <- read_csv("data/gapminder_data.csv")`
+We will start by importing the complete gapminder dataset that we used yesterday into our fresh new R session. Yesterday we did this using a "point-and-click" commands. Today let's type them into the console ourselves: `gapminder_data <- read_csv("1_introR/data/gapminder_data.csv")`
 
 > ## Exercise
 >
@@ -79,7 +79,7 @@ The output in your console shows that by doing this, we attach several useful pa
 Reload your data:
 
 ```{r ReloadGapminder}
-gapminder_data <- read_csv("data/gapminder_data.csv")
+gapminder_data <- read_csv("1_introR/data/gapminder_data.csv")
 ```
 
 Notice that the output of the `read_csv()` function is pretty informative. It tells us the name of all of our column headers as well as how it interpreted the data type. This birds-eye-view can help you take a quick look that everything is how we expect it to be.
@@ -360,7 +360,7 @@ Before we move on to more data cleaning, let's create the final gapminder datafr
 > 
 > > ## Solution: 
 > > ```{r LoadGapminder2007_solution}
-> > gapminder_data_2007 <- read_csv("data/gapminder_data.csv") %>%
+> > gapminder_data_2007 <- read_csv("1_introR/data/gapminder_data.csv") %>%
 > >   filter(year == 2007 & continent == "Americas") %>%
 > >   select(-year, -continent)
 > > ```
@@ -418,13 +418,13 @@ Researchers are often pulling data from several sources, and the process of maki
 It's always good to go into data cleaning with a clear goal in mind. Here, we'd like to prepare the CO2 UN data to be compatible with our gapminder data so we can directly compare GDP to CO2 emissions. To make this work, we'd like a data frame that contains a column with the country name, and columns for different ways of measuring CO2 emissions. We will also want the data to be collected as close to 2007 as possible (the last year we have data for in gapminder). Let's start with reading the data in using `read_csv()`
 
 ```{r CleanEmissionsData}
-read_csv("data/co2-un-data.csv")
+read_csv("1_introR/data/co2-un-data.csv")
 ```
 
 The output gives us a warning about missing column names being filled in with things like 'X3', 'X4', etc. Looking at the table that is outputted by `read_csv()` we can see that there appear to be two rows at the top of the file that contain information about the data in the table. The first is a header that tells us the table number and its name. Ideally, we'd skip that. We can do this using the `skip=` argument in read_csv by giving it a number of lines to skip.
 
 ```{r CleanEmissionsSkip}
-read_csv("data/co2-un-data.csv", skip=1)
+read_csv("1_introR/data/co2-un-data.csv", skip=1)
 ```
 
 Now we get a similar Warning message as before, but the outputted table looks better.
@@ -436,7 +436,7 @@ Now we get a similar Warning message as before, but the outputted table looks be
 We can resolve this warning by telling `read_csv()` what the column names should be with the `col_names()` argument where we give it the column names we want within the c() function separated by commas. If we do this, then we need to set skip to 2 to also skip the column headings. Let's also save this dataframe to `co2_emissions_dirty` so that we don't have to read it in every time we want to clean it even more.
 
 ```{r CleanEmissionsColNames1}
-co2_emissions_dirty <- read_csv("data/co2-un-data.csv", skip=2,
+co2_emissions_dirty <- read_csv("1_introR/data/co2-un-data.csv", skip=2,
          col_names=c("region", "country", "year", "series", "value", "footnotes", "source"))
 co2_emissions_dirty
 ```
@@ -446,14 +446,14 @@ co2_emissions_dirty
 > There are often multiple ways to clean data. Here we  read in the table, get the warning and then fix the column names using the rename function.
 > 
 > ```{r CleanEmissionsRename}
-> read_csv("data/co2-un-data.csv", skip=1) %>%
+> read_csv("1_introR/data/co2-un-data.csv", skip=1) %>%
 >   rename(country=X2)
 > ```
 >
 > Many data analysts prefer to have their column headings and variable names be in all lower case. We can use a variation of `rename()`, which is `rename_all()` that allows us to set all of the column headings to lower case by giving it the name of the tolower function, which makes everything lowercase.
 > 
 > ```{r CleanEmissionsRenameLower}
-> read_csv("data/co2-un-data.csv", skip=1) %>%
+> read_csv("1_introR/data/co2-un-data.csv", skip=1) %>%
 >  rename_all(tolower)
 > ```
 {: .solution}
@@ -550,7 +550,7 @@ co2_emissions <- co2_emissions_dirty %>%
 Now we're ready to join our CO2 emissions data to the gapminder data. Previously we saw that we could read in and filter the gapminder data like this to get the data from the Americas for 2007 so we can create a new dataframe with our filtered data:
 
 ```{r LoadGapminder2007}
-gapminder_data_2007 <- read_csv("data/gapminder_data.csv") %>%
+gapminder_data_2007 <- read_csv("1_introR/data/gapminder_data.csv") %>%
   filter(year == 2007 & continent == "Americas") %>%
   select(-year, -continent)
 ```
@@ -595,7 +595,7 @@ We can see that the co2_emissions data were missing for Bolivia, Puerto Rico, Un
 If we look at the co2_emissions data with `View()`, we will see that Bolivia, United States, and Venezuela are called different things in the co2_emissions data frame. They're called "Bolivia (Plurin. State of)", "United States of America", and "Venezuela (Boliv. Rep. of)". Puerto Rico isn't a country; it's part of the United States. Using `mutate()` and `recode()`, we can re-import the co2_emissions data so that the country names for Bolivia, United States, and Venezuela, match those in the gapminder data.
 
 ```{r Co2Recode}
-co2_emissions <- read_csv("data/co2-un-data.csv", skip=2,
+co2_emissions <- read_csv("1_introR/data/co2-un-data.csv", skip=2,
                           col_names=c("region", "country", "year",
                                       "series", "value", "footnotes", "source")) %>%
   select(country, year, series, value) %>%
@@ -618,7 +618,7 @@ Now we see that our recode enabled the join for all countries in the gapminder, 
 
 In the gapminder data, let's recode Puerto Rico as United States. 
 ```{r RecodePR}
-gapminder_data <- read_csv("data/gapminder_data.csv") %>%
+gapminder_data <- read_csv("1_introR/data/gapminder_data.csv") %>%
 filter(year == 2007 & continent == "Americas") %>%
 select(-year, -continent) %>%
 mutate(country = recode(country, "Puerto Rico" = "United States")) 
@@ -627,7 +627,7 @@ mutate(country = recode(country, "Puerto Rico" = "United States"))
 Now we have to group Puerto Rico and the US together, aggregating and calculating the data for all of the other columns. This is a little tricky - we will need a weighted average of lifeExp and gdpPercap. 
 
 ```{r RecodeJoinExercise2}
-gapminder_data <- read_csv("data/gapminder_data.csv") %>%
+gapminder_data <- read_csv("1_introR/data/gapminder_data.csv") %>%
   filter(year == 2007 & continent == "Americas") %>%
   select(-year, -continent) %>%
   mutate(country = recode(country, "Puerto Rico" = "United States")) %>%
@@ -663,7 +663,7 @@ Let's look at the output - see how the Canada, US, and Mexico rows are all label
 We have reached our data cleaning goals! One of the best aspects of doing all of these steps coded in R is that our efforts are reproducible, and the raw data is maintained. With good documentation of data cleaning and analysis steps, we could easily share our work with another researcher who would be able to repeat what we've done. However, it's also nice to have a saved `csv` copy of our clean data. That way we can access it later without needing to redo our data cleaning, and we can also share the cleaned data with collaborators. To save our dataframe, we'll use `write_csv()`. 
 
 ```{r writeCSV}
-write_csv(gapminder_co2, "data/gapminder_co2.csv")
+write_csv(gapminder_co2, "1_introR/data/gapminder_co2.csv")
 ```
 
 Great - Now we can move on to the analysis! 
