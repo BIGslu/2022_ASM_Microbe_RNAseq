@@ -1,8 +1,13 @@
 # 2022 ASM Microbe RNAseq workshop outline
+Times in PST
+
+## Intro
+
+8 - 8:20: Workshop and data intro: Kim
 
 ## Intro R & tidyverse
 
-* 9 - 12: Candace, Kelly
+* 8:20 - 11: Kelly
 * Intro R
     - R vs RStudio
     - Rprojects
@@ -23,11 +28,11 @@
 * Intro tidyr
     - pivot_ and join_
 
-## Lunch 12-1
+## Lunch 11-12
 
 ## Data cleaning of RNAseq
 
-* 1 - 2: Kim
+* 12 - 1: Kim
 * sample quality filtering
     - total sequences, other metrics
 * protein-coding genes
@@ -39,18 +44,12 @@
 
 ## Linear modeling
 
-* 2 - 4: Holly
+* 1-3: Holly
 *	Model selection
 *	Assumptions
 *	t-test -> lm -> lme4 on one gene
 *	AIC and BIC
 *	limma duplicateCorrelation [Kim]
 *	kimma? [Kim]
-
-## Gene set analysis
-
-* if time allow: Kim
-* GSEA
-* clusterProfiler
 
 Happy hour at ASM
