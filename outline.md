@@ -12,7 +12,7 @@
     - data types
         - condition as character vs factor
         - age as numeric
-* Intro tidyverse
+* Intro dplyr
     - syntax and pipes
     - select: remove unneeded variable (`ptID_old`), keep only needed variables
     - filter: media-only samples
@@ -20,6 +20,8 @@
 * Intro ggplot
     - syntax and `+`
     - build up to first data cleaning plot, total sequences per library
+* Intro tidyr
+    - pivot_ and join_
 
 ## Lunch 12-1
 
@@ -40,10 +42,10 @@
 * 2 - 4: Holly
 *	Model selection
 *	Assumptions
-*	lm on one gene
-*	lme4 on one gene with paired sample design
-*	limma -> kimma [Kim]
+*	t-test -> lm -> lme4 on one gene
 *	AIC and BIC
+*	limma duplicateCorrelation [Kim]
+*	kimma? [Kim]
 
 ## Gene set analysis
 
