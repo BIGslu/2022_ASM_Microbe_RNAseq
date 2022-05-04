@@ -15,17 +15,20 @@ samp <- data.frame(libID_orig=colnames(count)) %>%
 
 meta.ltbi <- meta %>% 
   #Filter LTBI samples with RNAseq data
-  filter(Sample_Group == "LTBI" & 
+  filter(KCHCA_AGE_YR_CURRENT >= 18 & Sample_Group == "LTBI" & 
            RS_SUB_ACCESSION_NO %in% samp$RS_SUB_ACCESSION_NO) %>% 
   #Select variables of interest
-  select(FULLIDNO, RS_SUB_ACCESSION_NO, M0_KCVSEX, 
-         KCHCA_AGE_YR_CURRENT) %>% 
+  select(FULLIDNO, RS_SUB_ACCESSION_NO, M0_KCVSEX,
+         KCHCA_AGE_YR_CURRENT, mono.RNAseq, methylation) %>%
+  #Convert T/F variables
+  mutate(mono.RNAseq = ifelse(is.na(mono.RNAseq),FALSE,TRUE),
+         methylation = ifelse(is.na(methylation),FALSE, TRUE)) %>% 
   #Add library ID for MEDIA and TB
   inner_join(samp) %>% 
   #rename to short names
-  rename(sex=M0_KCVSEX, age_yrs=KCHCA_AGE_YR_CURRENT) 
+  rename(sex=M0_KCVSEX, age_yrs=KCHCA_AGE_YR_CURRENT,
+         RNAseq=mono.RNAseq) 
   
-
 # Select 10 random donors
 set.seed(8759)
 samp10 <- sample(unique(meta.ltbi$RS_SUB_ACCESSION_NO), size=10, 
@@ -75,7 +78,8 @@ write_csv(count.ltbi, file="0_data/raw_counts.csv")
 
 meta.ltbi10 %>% 
   left_join(tot.seqs) %>% 
-  select(libID, ptID, condition, age_dys, sex, ptID_old, total_seq) %>% 
+  select(libID, ptID, condition, age_dys, sex, ptID_old, RNAseq,
+         methylation, total_seq) %>% 
   arrange(ptID, condition) %>% 
   write_csv(file="0_data/metadata.csv")
 
