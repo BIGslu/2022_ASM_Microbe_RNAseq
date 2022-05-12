@@ -1,5 +1,12 @@
 ---
 title: "R for Data Analysis"
+output:
+  html_document:
+    toc: yes
+    toc_float:
+      collapsed: no
+  pdf_document:
+    toc: yes
 source: Rmd
 teaching: 150
 exercises: 15

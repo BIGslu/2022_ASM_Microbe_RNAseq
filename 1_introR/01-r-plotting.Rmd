@@ -1,6 +1,13 @@
 ---
-source: Rmd
 title: "R for Plotting"
+source: Rmd
+output:
+  html_document:
+    toc: yes
+    toc_float:
+      collapsed: no
+  pdf_document:
+    toc: yes
 teaching: 120
 exercises: 30
 questions:
