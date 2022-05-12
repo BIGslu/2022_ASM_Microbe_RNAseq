@@ -57,34 +57,6 @@ library(limma)
 set.seed(651)
 ```
 
-## Directory structure
-
-To directly use the code in this pipeline, you must organize your files as follows.
-
-```{r dir_structure, echo=FALSE, message=FALSE}
-library(DiagrammeR)
-grViz(diagram = "digraph flowchart {
-  node [fontname = arial, shape = retangle, fontsize=8, height=0.1]
-  dir1 [label = '@@1']
-  dir2 [label = '@@2']
-  dir3 [label = '@@3']
-  dir4 [label = '@@4']
-  dir5 [label = '@@5']
-  dir6 [label = '@@6']
-
-  dir1 -> dir2,dir3,dir4,dir5;
-  dir2 -> dir6;
-  }
-  
-  [1]: 'Rproject/'
-  [2]: '0_data/'
-  [3]: 'data_clean/'
-  [4]: 'results/'
-  [5]: 'figs/'
-  [6]: 'raw_counts.csv\\nmetadata.csv'
-  ")
-```
-
 # 1. Read in data
 
 Using the tidyverse `read_` functions you saw earlier today, read in the counts and sample metadata files.
@@ -136,7 +108,7 @@ First, load the gene data base from `biomaRt`. Note that here we use `biomaRt::f
 #Get database
 ensembl <- biomaRt::useEnsembl(biomart="ensembl",
                                dataset="hsapiens_gene_ensembl",
-                                mirror = "uswest")
+                                mirror = "www")
 
 #Get gene key
 key <- biomaRt::getBM(attributes=c("hgnc_symbol", "gene_biotype"),
