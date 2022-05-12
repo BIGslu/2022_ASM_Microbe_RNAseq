@@ -309,7 +309,7 @@ rare <- as.data.frame(cpm(dat$counts)) %>%
             express.in.libs = length(value[value > 0]),
             .groups="drop")
 
-write_csv(rare, file="3_RNAseq_cleaning/P259_rare_genes.csv")
+write_csv(rare, file="3_RNAseq_cleaning/rare_genes.csv")
 rare
 ```
 
