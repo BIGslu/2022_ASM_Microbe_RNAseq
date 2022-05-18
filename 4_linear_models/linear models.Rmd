@@ -1,0 +1,215 @@
+---
+title: "RNA-seq linear modeling"
+subtitle: "t-tests, linear models, linear mixed effect models"
+author: "Holly Hartman, heh39@case.edu"
+date: "version `r format(Sys.time(), '%B %d, %Y')`"
+output:
+  html_document:
+    toc: yes
+    toc_depth: 3
+    toc_float:
+      collapsed: no
+  pdf_document:
+    toc: yes
+    toc_depth: '3'
+editor_options:
+  chunk_output_type: console
+urlcolor: blue
+---
+
+# Overview
+
+Thus far, we've modeled one gene at a time. However, RNA-seq data sets have 1000s of genes! Here, we introduce some R packages designed for running linear models across all genes in an efficient manor.
+
+# 0. Setup
+## Software
+
+This pipeline should be completed in [R][R] and [RStudio][RStudio]. You should also install the following packages.
+
+```{r eval=FALSE}
+#CRAN packages
+install.packages("tidyverse")
+
+#Bioconductor packages
+install.packages("BiocManager")
+BiocManager::install(c("limma"))
+
+#GitHub packages
+install.packages("devtools")
+devtools::install_github("BIGslu/kimma")
+```
+
+And load them into your current R session.
+
+```{r warning=FALSE, message=FALSE}
+#Data manipulation and plotting
+library(tidyverse)
+#Linear modeling
+library(lme4)
+
+set.seed(7789)
+```
+
+# 1. Load data
+
+All counts, gene, and sample metadata are contained in a single object.
+
+```{r}
+#Attach data
+attach("/Users/heh39/Library/CloudStorage/Box-Box/CWRU/Talks/RNAseq 2022/dat_voom.RData")
+#Rename data object to be shorter
+dat <- dat.abund.norm.voom
+```
+
+Let's review these data. We access each data frame within the `Elist` object using `$`. The normalized log2 CPM expression data are contained in `E`.
+
+```{r}
+dat$E[1:3,1:7]
+```
+
+Library and donor metadata are in `targets`.
+
+```{r}
+dat$targets[1:3,1:10]
+```
+
+Gene metadata are in `genes`.
+
+```{r}
+dat$genes[1:3,]
+```
+
+Gene-level quality weights are in `weights`.
+
+```{r}
+dat$weights[1:3,1:3]
+```
+
+For this section, we're just going to be focusing on one gene. I'm going to randomly select one to use and make a nice dataset with that single gene and all our target data.
+```{r}
+set.seed(7789)
+geneNum<-sample(nrow(dat$E), 1)
+gene<-dat$E[geneNum,]
+geneMeta<-dat$genes[geneNum,]
+```
+
+Great! Looks like we'll be exploring MCM5, COL5A3. 
+
+```{r}
+modelDat<-dat$targets
+modelDat$gene<-gene
+```
+
+Awesome, we have our data! Let's get to the fun part - statistics!
+
+
+# 2. Introduction to sampling
+
+In research, we want to try to learn about a target population. However, we usually can't get data about the entire population, so we take a sample and get data about the sample. Then, using the data about the sample, we want to make inferences about the entire population. 
+
+For example, let's say we wanted to know if people who play video games more than 10 hours a week spend more or less money on electronics than those that play video games less than 10 hours a week. Since we can't ask everyone about their gaming and spending habits, we would ask a select few (a sample) about their gaming and spending habits. Then we would use statistics to determine the probability or likelihood that our population behaves a certain way based on that sample.  
+
+<img src="samplingEx.png" width="600"/>
+
+# 3. T-tests
+
+T-tests examine the means of two groups. To do a t-test you need to have a binary variable and a continuous variable. Then the test examines if the average of that continuous variable is the same for each binary variable. Using the example above, our binary variable would be if the person plays video games more or less than 10 hours a week and the continuous variable would be the amount spent on electronics. 
+
+In our data here, we will be looking at gene expression levels (continuous) and compare Media vs Mtb infection (binary). 
+
+```{r}
+ttestRes<-t.test(gene ~ condition, data = modelDat)
+ttestRes
+```
+
+The notation here is that the continuous variable goes before the `~`, then we have the binary variable, and then we specify where the data is found. 
+
+From the results we get the t-test statistic (t = 3.6817), the degrees of freedom (df = 16.69), the p-value (p-value = 0.001899), as well as estimates of the mean for each group (Media = 5.31, Mtb = 4.60). 
+
+These results suggest that there is a statistically significant difference in gene expression for the gene COL5A3 between the Media and the Mtb infection conditions. (In statistics language: We reject the null hypothesis that the mean gene expression is equal in the Media and Mtb conditions)
+
+## 3.1 Paired t-test
+A paired t-test is very similar to a regular t-test, except here we are going to be leveraging the fact that each patients has a Media sample and a Mtb infection sample. That is, one person generated both pieces of data. 
+
+Another example of paired data might be pre/post tests where a person is given a test prior to some exposure and after some exposure to determine if the exposure caused a difference in test results. For example, we might give people a memory test, then have them do an obstacle course and get physically worn out, then have them do the memory test again to see if physical tiredness causes a change in memory abilities. 
+
+<img src="pairedDataEx.png" width="600"/>
+
+
+To do the paired t-test, we will first need to reshape our data. 
+```{r}
+modelDat2 <- reshape(modelDat, direction = "wide", 
+                  idvar = "ptID", timevar = "condition")
+
+```
+
+Now we can run the paired t-test with this data:
+
+```{r}
+ptTestRes<-t.test(modelDat2$gene.Mtb,
+                  modelDat2$gene.Media, 
+                  paired = T)
+ptTestRes
+```
+
+Here, we see we get slightly different results. We still get the t-test, degrees of freedom, and p-value, but the values have slightly changed. This is because we're now testing if the difference between the matched pairs is 0. The estimate of the mean of the differences is -0.7139, which is actually the same as the difference between the two means from before (Media = 5.31, Mtb = 4.60, difference = -0.71). This answer is more accurate because know that the data came from the same person and not two independent samples. 
+
+# 4 Linear models
+One major limitations of t-tests is that we can't adjust for any other information we know about the patients. We have a lot of other information in our `targets` dataset including sex, age, total sequences. What if these variables also have an impact on gene expression in each of the conditions? The t-test wouldn't be able to tell us that. 
+
+This is when we would want to use a linear model! Let's start with a linear model not adjusting for other factors and see what we get. 
+
+```{r}
+lmMod<-lm(gene ~ condition, data = modelDat)
+summary(lmMod)
+```
+
+Some of these numbers look awfully familiar. 5.31 is the mean gene expression for the Media condition, -0.71 is the difference between the means for the two conditions, t=-3.682 is the same as for our unpaired t-test, and 0.00171 is the same p-value as before. In fact, when we are not adjusting for any other variables or factors, our results should be identical to the t-test. This is a good way to do a sanity check.
+
+Now let's add some other variables. 
+```{r}
+lmModBig<-lm(gene ~ condition + age_dys + sex, data = modelDat)
+summary(lmModBig)
+```
+
+We see now that our numbers have changed and we have additional results! The main result of interest here is the p-value for the condition which is 0.00209. That means, adjusting for age and sex, the gene expression is statistically significantly different by condtion (Media vs Mtb infection). 
+
+How do we know if we really need to adjust for age and sex though? One way is to use the AIC (Akaike's An Information Criterion). This is a measure of "goodness of fit" or how well the model fits the data. Lower is better. 
+
+```{r}
+AIC(lmMod)
+AIC(lmModBig)
+```
+
+We see that the AIC is lower for our smaller model. This means we might not actually be benefiting from adding those extra variables to our model. Always use your scientific reasoning though. If you know that there is a difference by age or sex, keep them in the model even if the AIC says otherwise. Be smarter than your data!
+
+# 5 Linear mixed effects models
+The issue with the linear models is the same issue we had with a regular t-test. We're not using the fact that the one person generated two pieces of data! 
+
+To do that, we will use a mixed effects model. Mixed effects models are similar to linear models, except we have a "random effect" that accounts for individual differences between people. 
+
+```{r}
+lmeMod<-lmer(gene ~ condition + (1 | ptID), data = modelDat)
+summary(lmeMod)
+anova(lmeMod)
+```
+
+```{r}
+lmeModBig<-lmer(gene ~ condition + sex + age_dys + (1 | ptID), data = modelDat)
+summary(lmeModBig)
+```
+
+```{r}
+AIC(lmeMod)
+AIC(lmeModBig)
+```
+
+# R session
+
+```{r}
+sessionInfo()
+```
+
+[R]: https://cran.r-project.org/
+[RStudio]: https://www.rstudio.com/products/rstudio/download/
+[pipeline1]: https://github.com/BIGslu/SEAsnake/blob/main/vignette/SEAsnake_vignette.pdf
