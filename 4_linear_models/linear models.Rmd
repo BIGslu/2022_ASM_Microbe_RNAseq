@@ -56,7 +56,7 @@ All counts, gene, and sample metadata are contained in a single object.
 
 ```{r}
 #Attach data
-attach("/Users/heh39/Library/CloudStorage/Box-Box/CWRU/Talks/RNAseq 2022/dat_voom.RData")
+attach("3_RNAseq_cleaning/IFNG.csv")
 #Rename data object to be shorter
 dat <- dat.abund.norm.voom
 ```
@@ -96,8 +96,7 @@ geneMeta<-dat$genes[geneNum,]
 Great! Looks like we'll be exploring MCM5, COL5A3. 
 
 ```{r}
-modelDat<-dat$targets
-modelDat$gene<-gene
+modelDat<-read.csv('3_RNAseq_cleaning/IFNG.csv')
 ```
 
 Awesome, we have our data! Let's get to the fun part - statistics!
@@ -118,7 +117,7 @@ T-tests examine the means of two groups. To do a t-test you need to have a binar
 In our data here, we will be looking at gene expression levels (continuous) and compare Media vs Mtb infection (binary). 
 
 ```{r}
-ttestRes<-t.test(gene ~ condition, data = modelDat)
+ttestRes<-t.test(E ~ condition, data = modelDat)
 ttestRes
 ```
 
@@ -160,7 +159,7 @@ One major limitations of t-tests is that we can't adjust for any other informati
 This is when we would want to use a linear model! Let's start with a linear model not adjusting for other factors and see what we get. 
 
 ```{r}
-lmMod<-lm(gene ~ condition, data = modelDat)
+lmMod<-lm(E ~ condition, data = modelDat)
 summary(lmMod)
 ```
 
@@ -168,7 +167,7 @@ Some of these numbers look awfully familiar. 5.31 is the mean gene expression fo
 
 Now let's add some other variables. 
 ```{r}
-lmModBig<-lm(gene ~ condition + age_dys + sex, data = modelDat)
+lmModBig<-lm(E ~ condition + age_dys + sex, data = modelDat)
 summary(lmModBig)
 ```
 
@@ -189,13 +188,13 @@ The issue with the linear models is the same issue we had with a regular t-test.
 To do that, we will use a mixed effects model. Mixed effects models are similar to linear models, except we have a "random effect" that accounts for individual differences between people. 
 
 ```{r}
-lmeMod<-lmer(gene ~ condition + (1 | ptID), data = modelDat)
+lmeMod<-lmer(E ~ condition + (1 | ptID), data = modelDat)
 summary(lmeMod)
 anova(lmeMod)
 ```
 
 ```{r}
-lmeModBig<-lmer(gene ~ condition + sex + age_dys + (1 | ptID), data = modelDat)
+lmeModBig<-lmer(E ~ condition + sex + age_dys + (1 | ptID), data = modelDat)
 summary(lmeModBig)
 ```
 
