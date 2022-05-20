@@ -243,20 +243,25 @@ head(fit_kimma$lm)
 head(fit_kimma$lm.fit)
 ```
 
-We can now look at metrics like AIC where we see that best fit still varies by gene (which is very common).
+We can now look at metrics like AIC where we see that best fit still varies by gene (which is very common) and the overall AIC mean is lower for the simple linear model without paired design.
 
 ```{r}
-full_join(fit_kimma$lm.fit, fit_kimma$lme.fit, 
-          by = c("gene"), suffix = c("_lm","_lme")) %>%
+fit_kimma_all <- full_join(fit_kimma$lm.fit, fit_kimma$lme.fit, 
+          by = c("gene"), suffix = c("_lm","_lme"))
+
+fit_kimma_all %>%
   ggplot(aes(x = AIC_lm, y = AIC_lme)) +
   geom_point(alpha = 0.2) +
   geom_abline(intercept = 0, slope = 1, color = "red") +
   theme_classic() +
   coord_fixed() +
   labs(title = "AIC")
+
+mean(fit_kimma$lm.fit$AIC)
+mean(fit_kimma$lme.fit$AIC)
 ```
 
-So in this case, which model do we go with? It would be nice if one model showed consistently better fit across our genes, but this rarely happens. For this experiment, we know we have a paired design so either `limma` with `duplicateCorrelation` or `kimma` with `run.lme` is appropriate. In our experience, the true mixed effects model in `kimma` yields fewer false positive genes.
+So in this case, which model do we go with? It would be nice if one model showed consistently better fit across our genes, but this rarely happens. For this experiment, we know we have a paired design so either `limma` with `duplicateCorrelation` or `kimma` with `run.lme` is appropriate. In our experience, a true mixed effects model in `kimma` yields fewer false positive genes when you have a paired design, even if metrics like AIC do not support it as the best fit model.
 
 # 4. Other models
 
