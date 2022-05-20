@@ -37,9 +37,8 @@ To make your life in R easier, there is a great (and free!) program called RStud
 
 To get started, we'll spend a little time getting familiar with the RStudio environment and setting it up to suit your tastes. When you start RStudio, you'll have three panels.
 
-```{r initial_rstudio, out.width='700px'}
-knitr::include_graphics("images/r-plotting/initial_rstudio.png")
-```
+
+<img src="images/r-plotting/initial_rstudio.png" width="700"/>
 
 On the left you'll have a panel with three tabs - Console, Terminal, and Jobs. The Console tab is what running R from the command line looks like. This is where you can enter R code. Try typing in `2+2` at the prompt (>). In the upper right panel are tabs indicating the Environment, History, and a few other things. If you click on the History tab, you'll see the command you ran at the R prompt.
 
@@ -113,6 +112,7 @@ You can use R like a calculator to add (`+`), multiply (`*`), divide (`/`), and 
 - character
 - logical
 - double
+- integer
 
 ```{r types}
 name <- "Kelly"
@@ -185,9 +185,9 @@ fan_settings <- factor(c('low', 'high', 'medium', 'high', 'medium'), levels = c(
 ```
 
 
-# Understanding functions
+# Functions
 
-> ## Pro-tip
+> ## Viewing function documentation
 >
 > Each function has a help page that documents what arguments the function
 > expects and what value it will return. You can bring up the help page a few
@@ -261,15 +261,18 @@ Sometimes it is helpful - or even necessary - to include the argument name, but 
 >  getwd()     # outputs our current working directory (folder)
 >  sum(5, 6)   # adds numbers
 > ```
-{: .callout}
-
 
 
 # Packages
 
-TODO
+So far, all of the functions we have used are part of base R. 
+When you install R, these functions are included by default.
+However, anyone can write code and share it with other people by putting them in packages.
+A package is a collection of code that is intended to be shared and re-used.
+Sometimes you need to do something that isn't included in base R, or in a 
+different way than the way it is implemented in base R.
 
-Let's load our first package, the tidyverse with `library(tidyverse)`.
+Let's load our first package with `library(tidyverse)`.
 
 Go ahead and run that line in the **Console** by clicking the <kbd>Run</kbd> button on the top right of the **Editor** tab and choosing <kbd>Run Selected Lines</kbd>. This loads a set of useful functions and sample data that makes it easier for us to do complex analyses and create professional visualizations in R.
 
@@ -313,17 +316,40 @@ The variable types we discussed above are useful for simple variables, but
 what if you want to store attributes about lots of different things, like patient samples? 
 For that we use data frames. Let's find out how to read in a dataset as a data frame.
 
-TODO
-- read.csv
-- read_csv
-- data.table::fread
-- readxl::read_excel
+```{r}
+metadata <- read_csv("0_data/metadata.csv")
+```
+
+`read_csv` gave us lots of useful information about the data frame we just loaded!
+```
+Rows: 20 Columns: 9
+── Column specification ──────────────────────────────────
+Delimiter: ","
+chr (5): libID, ptID, condition, sex, ptID_old
+dbl (2): age_dys, total_seq
+lgl (2): RNAseq, methylation
+```
+
+We can view the data in our data frame interactively with `View`:
+
+```{r eval = FALSE}
+View(metadata)
+```
+
 
 > ## Data objects
 > There are many different ways to store data in R. Most objects have a table-like structure with rows and columns. We will refer to these objects generally as "data objects". If you've used R before, you many be used to calling them "data.frames". Functions from the "tidyverse" such as `read_csv` work with objects called "tibbles", which are a specialized kind of "data.frame." Another common way to store data is a "data.table". All of these types of data objects (tibbles, data.frames, and data.tables) can be used with the commands we will learn in this lesson to make plots. We may sometimes use these terms interchangeably.
-{: .callout}
+>
+> Other functions for reading datasets:
+>
+> - read.csv
+> - data.table::fread
+> - readxl::read_excel
 
-`View()`
-`dim()`
-`nrow()`
-`ncol()`
+
+```{r}
+dim(metadata)
+nrow(metadata)
+ncol(metadata)
+```
+

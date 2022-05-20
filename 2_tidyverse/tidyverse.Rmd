@@ -250,7 +250,7 @@ ggplot() +
 ```
 
 So far, we've been using `geom_point()` to plot two continuous (numeric) variables.
-What if we want to plot a discrete variable and a numeric variable?
+What if we want to plot a categorical variable and a numeric variable?
 
 Using the `metadata` data, use ggplot to create a box plot with continent on the x axis and life expectancy on the y axis. 
 
@@ -263,7 +263,7 @@ metadata %>%
 
 This type of visualization makes it easy to compare the range and spread of values across groups. The "middle" 50% of the data is located inside the box and outliers that are far away from the central mass of the data are drawn as points.
 
-Another way to plot a discrete and a continuous variable is with a bar plot.
+Another way to plot a categorical and a continuous variable is with a bar plot.
 
 ```{r}
 metadata %>% 
@@ -445,6 +445,7 @@ raw_counts_long <- raw_counts %>%
 
 Now let's combine our raw sequence counts with our metadata.
 To combine two data frames, we will use a `join` function.
+The dplyr package has a number of tools for joining data frames together depending on what we want to do with the rows of the data of countries that are not represented in both data frames. 
 
 `?join`
 
@@ -456,14 +457,27 @@ We have a few options here:
 >  - right_join(): includes all rows in y.
 >  - full_join(): includes all rows in x or y.
 
+
+In an "inner join", the new data frame only has those rows where the same key is found in both data frames. This is a very commonly used join.
+
+<img src="images/r-data-analysis/join-inner.png" width="400"/>
+
 ```{r}
 inner_join(metadata, raw_counts_long, by = 'libID')
 ```
+
+> ## Bonus: Other dplyr join functions 
+>
+> Outer joins and can be performed using `left_join()`, `right_join()`, and `full_join()`. In a "left join", if the key is present in the left hand data frame, it will appear in the output, even if it is not found in the the right hand data frame. For a right join, the opposite is true. For a full join, all possible keys are included in the output data frame.
+> 
+> <img src="images/r-data-analysis/join-outer.png" width="400"/>
+
+Now let's save our joined data frame to a new variable:
 
 ```{r}
 full_data <- inner_join(metadata, raw_counts_long, by = 'libID')
 ```
 
-# More complex pipelines
+# Using our joined dataset
 
-TODO showcase pivot & join prior to plotting
+TODO showcase more complex pipelines using filter prior to plotting
