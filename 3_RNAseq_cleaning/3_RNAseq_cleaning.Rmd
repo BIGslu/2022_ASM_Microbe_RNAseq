@@ -398,6 +398,27 @@ Write final voom object as `RData`
 save(dat.abund.norm.voom, file = "3_RNAseq_cleaning/dat_voom.RData")
 ```
 
+We also save information on a single gene, IFNG, for use in our next section on linear modeling. Note that this combines several of the `tidyverse` functions you saw this morning as well as introduces some new ones.
+
+```{r}
+# Get 
+IFNG <- as.data.frame(dat.abund.norm.voom$E) %>% 
+  #Move rownames into the data frame as a column
+  rownames_to_column("hgnc_symbol") %>% 
+  #Filter gene of interest
+  filter(hgnc_symbol == "IFNG") %>% 
+  #Pivot to long format so libID are in a single column
+  pivot_longer(-hgnc_symbol, names_to = "libID", values_to = "E") %>% 
+  #Join with sample metadat
+  full_join(dat.abund.norm.voom$targets, by = "libID")
+
+#View resulting data frame
+IFNG
+
+#Save as csv
+write_csv(IFNG, file = "3_RNAseq_cleaning/IFNG.csv")
+```
+
 # R session
 
 ```{r}
