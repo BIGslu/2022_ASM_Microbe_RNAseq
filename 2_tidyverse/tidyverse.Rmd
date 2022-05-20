@@ -478,6 +478,37 @@ Now let's save our joined data frame to a new variable:
 full_data <- inner_join(metadata, raw_counts_long, by = 'libID')
 ```
 
+Now that we have our metadata joined with our raw count data,
+we're ready to clean and analyze it!
+
 # Using our joined dataset
 
-TODO showcase more complex pipelines using filter prior to plotting
+```{r}
+top_10_abundant_genes <- full_data %>% 
+  filter(condition == 'Media') %>% 
+  group_by(hgnc_symbol) %>% 
+  summarize(med_raw_count = median(raw_count)) %>% 
+  arrange(desc(med_raw_count)) %>% 
+  slice_max(order_by = med_raw_count, n = 10)
+top_10_abundant_genes
+```
+
+```{r}
+full_data %>% 
+  filter(hgnc_symbol %in% top_10_abundant_genes$hgnc_symbol, 
+         condition == 'Media') %>% 
+  ggplot() +
+  aes(x = hgnc_symbol, y = raw_count) +
+  geom_boxplot() +
+  coord_flip() +
+  labs(title = 'Top 10 most abundant genes')
+```
+
+```{r}
+full_data %>% 
+  filter(hgnc_symbol == 'MALAT1', condition == 'Media') %>% 
+  ggplot() +
+  aes(x = ptID, y = raw_count) +
+  geom_col() +
+  labs(title = 'MALAT1 RNAseq counts')
+```
