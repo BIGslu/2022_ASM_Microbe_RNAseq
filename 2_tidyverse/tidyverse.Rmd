@@ -32,6 +32,7 @@ View(metadata)
 
 ## summarize
 
+<!-- could cut summarize if we need to -->
 Let's start with a useful function called `summarize()` that will let us summarize variables in our data frame. We can use it to find the mean, median, or other statistics about the dataset. Let's find the average age in days below:
 
 ```{r}
@@ -84,7 +85,6 @@ Since we use the pipe operator so often, there is a keyboard shortcut for it in 
 > 
 > For now, we will not be saving dataframes, since we are just experimenting with `dyplr` functions, but it will be useful later on in this lesson. 
 > 
-{: .callout}
 
 ### group_by
 
@@ -118,6 +118,8 @@ metadata %>%
   filter(condition == 'Media')
 ```
 
+TODO: COMPARISON operators == != < <=
+
 > ## Quotes vs No Quotes
 > Notice that when we added the label value we did so by placing the values
 > inside quotes. This is because we are not using a value from inside our data
@@ -139,6 +141,7 @@ metadata %>%
   filter(condition == 'Media', total_seq > 7000000)
 ```
 
+TODO: and / or |
 
 ## mutate
 
@@ -149,7 +152,12 @@ metadata %>%
   mutate(age_yrs = age_dys / 365.25)
 ```
 
+TODO: save to new df
+TODO: EXERCISE to get learners to try making their own mutate call
+
 # Intro ggplot
+
+<!-- could cut labels, other beautification if needed -->
 
 We will be using the `ggplot2` package today to make our plots. This is a very
 powerful package that creates professional looking plots and is one of the
@@ -373,7 +381,7 @@ metadata %>%
   select(-libID) %>% 
   pivot_wider(names_from = condition, values_from = total_seq)
 ```
-Notice here that we tell `pivot_wider()` which columns to pull the names we wish our new columns to be named from the year variable, and the values to populate those columns from the lifeExp variable. (Again, neither of which have to be in quotes in the code when there are no special characters or spaces - certainly an incentive not to use special characters or spaces!) We see that the resulting table has new columns by year, and the values populate it with our remaining variables dictating the rows.
+Notice here that we tell `pivot_wider()` which columns to pull the names we wish our new columns to be named from the year variable, and the values to populate those columns from the <!-- TODO --> lifeExp variable. (Again, neither of which have to be in quotes in the code when there are no special characters or spaces - certainly an incentive not to use special characters or spaces!) We see that the resulting table has new columns by year, and the values populate it with our remaining variables dictating the rows.
 
 Maybe we should assign those columns more informative names:
 
@@ -415,6 +423,8 @@ metadata_wide %>%
 ## sequence data
 
 So far, we've been working with just the metadata. But this workshop is about analyzing  RNAseq data, so let's start working with actual sequencing data.
+
+TODO: standardize raw_counts & metadata variable names
 
 ```{r}
 raw_counts <- read_csv('0_data/raw_counts.csv')
@@ -504,11 +514,13 @@ full_data %>%
   labs(title = 'Top 10 most abundant genes')
 ```
 
+interferon 1 gamma
+
 ```{r}
 full_data %>% 
-  filter(hgnc_symbol == 'MALAT1', condition == 'Media') %>% 
+  filter(hgnc_symbol == 'IFNG', condition == 'Media') %>% 
   ggplot() +
   aes(x = ptID, y = raw_count) +
   geom_col() +
-  labs(title = 'MALAT1 RNAseq counts')
+  labs(title = 'IFNG RNAseq counts')
 ```

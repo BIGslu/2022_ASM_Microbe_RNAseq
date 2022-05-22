@@ -136,6 +136,19 @@ typeof(height_inches)
 typeof(likes_cats)
 ```
 
+
+> ## Comments
+> Sometimes you may want to write comments in your code to help you remember
+> what your code is doing, but you don't want R to think these comments are a part
+> of the code you want to evaluate. That's where **comments** come in! Anything
+> after a `#` symbol in your code will be ignored by R. For example, let's say we
+> wanted to make a note of what each of the functions we just used do:
+> ```{r FunctionsComments2}
+>  Sys.Date()  # outputs the current date
+>  getwd()     # outputs our current working directory (folder)
+>  sum(5, 6)   # adds numbers
+> ```
+
 > ## Assigning values to objects
 > Try to assign values to some objects and observe each object after you have assigned a new value. What do you notice?
 >
@@ -159,10 +172,9 @@ typeof(likes_cats)
 > - R is case sensitive, so for example, weight_kg is different from Weight_kg.
 > - You cannot use spaces in the name.
 > - There are some names that cannot be used because they are the names of fundamental functions in R (e.g., if, else, for; see [here](https://stat.ethz.ch/R-manual/R-devel/library/base/html/Reserved.html) for a complete list). If in doubt, check the help to see if the name is already in use (`?function_name`).
-> - It's best to avoid dots (.) within names. Many function names in R itself have them and dots also have a special meaning (methods) in R and other programming languages.
 > - It is recommended to use nouns for object names and verbs for function names.
 > - Be consistent in the styling of your code, such as where you put spaces, how you name objects, etc. Using a consistent coding style makes your code clearer to read for your future self and your collaborators. One popular style guide can be found through the [tidyverse](https://style.tidyverse.org/).
-{: .checklist}
+
 
 Math works the way you'd expect it to (mostly).
 
@@ -250,19 +262,6 @@ sum(5, 6)
 Sometimes it is helpful - or even necessary - to include the argument name, but often we can skip the argument name, if the argument values are passed in a certain order. If all this function stuff sounds confusing, don't worry! We'll see a bunch of examples as we go that will make things clearer.
 
 
-> ## Comments
-> Sometimes you may want to write comments in your code to help you remember
-> what your code is doing, but you don't want R to think these comments are a part
-> of the code you want to evaluate. That's where **comments** come in! Anything
-> after a `#` symbol in your code will be ignored by R. For example, let's say we
-> wanted to make a note of what each of the functions we just used do:
-> ```{r FunctionsComments2}
->  Sys.Date()  # outputs the current date
->  getwd()     # outputs our current working directory (folder)
->  sum(5, 6)   # adds numbers
-> ```
-
-
 # Packages
 
 So far, all of the functions we have used are part of base R. 
@@ -297,10 +296,12 @@ library(tidyverse)
 > dplyr::filter() masks stats::filter()
 > ~~~
 >
-> This means that two different packages (`dyplr` from `tidyverse` and `stats`
+> This means that two different packages (`dplyr` from `tidyverse` and `stats`
 > from base R) have a function named `filter()`. By default, R uses the function
 > that was most recently loaded, so if we try using the `filter()` function after
 > loading `tidyverse`, we will be using the `filter()` function > from `dplyr()`.
+
+TODO: explain double-colon syntax
 
 
 > ## The tidyverse vs Base R
@@ -330,7 +331,11 @@ dbl (2): age_dys, total_seq
 lgl (2): RNAseq, methylation
 ```
 
-We can view the data in our data frame interactively with `View`:
+TODO
+`head()`
+`tail()`
+
+We can view the whole data frame interactively with `View`:
 
 ```{r eval = FALSE}
 View(metadata)
@@ -353,3 +358,20 @@ nrow(metadata)
 ncol(metadata)
 ```
 
+Looking at just one column:
+
+```{r}
+metadata$ptID
+metadata['ptID']
+```
+
+Subsetting:
+
+```{r}
+metadata[2, 'ptID']
+metadata[1:4,]
+metadata[1:4, c('ptID', 'condition')]
+```
+
+
+TODO: force an error to teach warnings/messages/errors
