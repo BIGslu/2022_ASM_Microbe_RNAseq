@@ -535,3 +535,19 @@ full_data %>%
   geom_col() +
   labs(title = 'IFNG RNAseq counts')
 ```
+
+# *Navigation*
+
+* [Workshop index][index]
+* Previous lesson: [Intro to R and RStudio][lesson1]
+* Next lesson: [RNA-seq data cleaning][lesson3]
+
+***
+
+[index]: https://bigslu.github.io/2022_ASM_Microbe_RNAseq/index.html
+[lesson0]: https://bigslu.github.io/2022_ASM_Microbe_RNAseq/0_welcome/0_install.html
+[lesson1]: https://bigslu.github.io/2022_ASM_Microbe_RNAseq/1_introR/1_intro-R.html
+[lesson2]: https://bigslu.github.io/2022_ASM_Microbe_RNAseq/2_tidyverse/2_tidyverse.html
+[lesson3]: https://bigslu.github.io/2022_ASM_Microbe_RNAseq/3_RNAseq_cleaning/3_RNAseq_cleaning.html
+[lesson4.1]: https://bigslu.github.io/2022_ASM_Microbe_RNAseq/4_linear_models/4.1_linear-models.html
+[lesson4.2]: https://bigslu.github.io/2022_ASM_Microbe_RNAseq/4_linear_models/4.2_linear_model_rnaseq.html

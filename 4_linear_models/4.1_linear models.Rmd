@@ -203,12 +203,18 @@ AIC(lmeMod)
 AIC(lmeModBig)
 ```
 
-# R session
+# *Navigation*
 
-```{r}
-sessionInfo()
-```
+* [Workshop index][index]
+* Previous lesson: [RNA-seq data cleaning][lesson3]
+* Next lesson: [RNA-seq linear modeling][lesson4.2]
 
-[R]: https://cran.r-project.org/
-[RStudio]: https://www.rstudio.com/products/rstudio/download/
-[pipeline1]: https://github.com/BIGslu/SEAsnake/blob/main/vignette/SEAsnake_vignette.pdf
+***
+
+[index]: https://bigslu.github.io/2022_ASM_Microbe_RNAseq/index.html
+[lesson0]: https://bigslu.github.io/2022_ASM_Microbe_RNAseq/0_welcome/0_install.html
+[lesson1]: https://bigslu.github.io/2022_ASM_Microbe_RNAseq/1_introR/1_intro-R.html
+[lesson2]: https://bigslu.github.io/2022_ASM_Microbe_RNAseq/2_tidyverse/2_tidyverse.html
+[lesson3]: https://bigslu.github.io/2022_ASM_Microbe_RNAseq/3_RNAseq_cleaning/3_RNAseq_cleaning.html
+[lesson4.1]: https://bigslu.github.io/2022_ASM_Microbe_RNAseq/4_linear_models/4.1_linear-models.html
+[lesson4.2]: https://bigslu.github.io/2022_ASM_Microbe_RNAseq/4_linear_models/4.2_linear_model_rnaseq.html

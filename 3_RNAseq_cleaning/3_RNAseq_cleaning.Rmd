@@ -436,16 +436,18 @@ IFNG
 write_csv(IFNG, file = "3_RNAseq_cleaning/IFNG.csv")
 ```
 
-# R session
+# *Navigation*
 
-```{r}
-sessionInfo()
-```
+* [Workshop index][index]
+* Previous lesson: [Intro to the tidyverse][lesson2]
+* Next lesson: [Linear modeling][lesson4.1]
 
-[R]: https://cran.r-project.org/
-[RStudio]: https://www.rstudio.com/products/rstudio/download/
-[SEAsnake]: https://bigslu.github.io/SEAsnake/vignette/SEAsnake_vignette.html
-[count_to_voom]: https://bigslu.github.io/tutorials/RNAseq/2.Hawn_RNAseq_counts.to.voom.html
-[voom_to_DEG]: https://bigslu.github.io/tutorials/RNAseq/3.Hawn_RNAseq_voom.to.DEG.html
-[combat]: https://doi.org/10.1093/nargab/lqaa078
+***
 
+[index]: https://bigslu.github.io/2022_ASM_Microbe_RNAseq/index.html
+[lesson0]: https://bigslu.github.io/2022_ASM_Microbe_RNAseq/0_welcome/0_install.html
+[lesson1]: https://bigslu.github.io/2022_ASM_Microbe_RNAseq/1_introR/1_intro-R.html
+[lesson2]: https://bigslu.github.io/2022_ASM_Microbe_RNAseq/2_tidyverse/2_tidyverse.html
+[lesson3]: https://bigslu.github.io/2022_ASM_Microbe_RNAseq/3_RNAseq_cleaning/3_RNAseq_cleaning.html
+[lesson4.1]: https://bigslu.github.io/2022_ASM_Microbe_RNAseq/4_linear_models/4.1_linear-models.html
+[lesson4.2]: https://bigslu.github.io/2022_ASM_Microbe_RNAseq/4_linear_models/4.2_linear_model_rnaseq.html
