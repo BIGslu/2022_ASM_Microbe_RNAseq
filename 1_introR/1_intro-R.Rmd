@@ -1,26 +1,29 @@
 ---
 title: "Intro to R and RStudio"
+author: |
+    | Kelly Sovacool
+    | Adapted from the [U of Michigan Carpentries](umcarpentries.org/intro-curriculum-r/)
+date: "version `r format(Sys.time(), '%B %d, %Y')`"
 output:
   html_document:
     toc: yes
+    toc_depth: 3
     toc_float:
       collapsed: no
   pdf_document:
     toc: yes
+    toc_depth: '3'
+editor_options:
+  chunk_output_type: console
+urlcolor: blue
 ---
 
 ```{r, include=FALSE}
 knitr::opts_chunk$set(fig.path = 'figures/')
+#set working dir to project
+knitr::opts_knit$set(root.dir = rprojroot::find_rstudio_root_file())
 ```
 
-### Contents
-
-1. [Introduction to R and RStudio](#introduction-to-r-and-rstudio)
-1. [Loading and reviewing data](#loading-and-reviewing-data)
-1. [Understanding commands](#understanding-commands)
-
-# Introduction to R and RStudio
-_[Back to top](#contents)_
 
 In this workshop, we will analyze an RNAseq dataset.
 To do this, we'll need two things: data and a platform to analyze the data.

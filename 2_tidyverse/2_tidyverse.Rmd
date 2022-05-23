@@ -1,16 +1,27 @@
 ---
 title: "Intro to the tidyverse"
+author: |
+    | Kelly Sovacool
+    | Adapted from [U of Michigan Carpentries](umcarpentries.org/intro-curriculum-r/)
+date: "version `r format(Sys.time(), '%B %d, %Y')`"
 output:
   html_document:
     toc: yes
+    toc_depth: 3
     toc_float:
       collapsed: no
   pdf_document:
     toc: yes
+    toc_depth: '3'
+editor_options:
+  chunk_output_type: console
+urlcolor: blue
 ---
 
 ```{r, include=FALSE}
 knitr::opts_chunk$set(fig.path = 'figures/')
+#set working dir to project
+knitr::opts_knit$set(root.dir = rprojroot::find_rstudio_root_file())
 ```
 
 The tidyverse is not just one package, but a collection of several packages that
