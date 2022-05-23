@@ -25,7 +25,7 @@ knitr::opts_knit$set(root.dir = rprojroot::find_rstudio_root_file())
 
 # Overview
 
-Here, we take a raw RNA-seq counts table through quality assessment, filtering, and normalization. For more information on how counts were generated, see our [SEAsnake pipeline][pipeline1]. These data are human, bulk, paired-end RNA-seq, but this pipeline can be applied to other organisms or single-read libraries. 
+Here, we take a raw RNA-seq counts table through quality assessment, filtering, and normalization. For more information on how counts were generated, see our [SEAsnake pipeline][SEAsnake]. These data are human, bulk, paired-end RNA-seq, but this pipeline can be applied to other organisms or single-read libraries. 
 
 # 0. Setup
 ## Software
@@ -69,7 +69,7 @@ meta <- read_csv("0_data/metadata.csv")
 # 2. Quality-filter data
 ## 2.1: Filter poor-quality libraries
 
-We assess library quality using metrics from [samtools `flagstat`](http://www.htslib.org/doc/samtools-flagstat.html) and [`picard`](https://gatk.broadinstitute.org/hc/en-us/articles/360037057492-CollectRnaSeqMetrics-Picard-). Here, we will only look at total sequences for brevity.
+We assess library quality using metrics from [samtools `flagstat`](http://www.htslib.org/doc/samtools-flagstat.html) and [`picard`](https://gatk.broadinstitute.org/hc/en-us/articles/360037057492-CollectRnaSeqMetrics-Picard-). Here, we will only look at total sequences for brevity but you can find more quality measures of interest such as percent alignment and median CV coverage in our full [tutorial][count_to_voom].
 
 Using `ggplot`, let's plot the total sequences per library.
 
@@ -427,7 +427,8 @@ sessionInfo()
 
 [R]: https://cran.r-project.org/
 [RStudio]: https://www.rstudio.com/products/rstudio/download/
-[pipeline1]: https://github.com/BIGslu/SEAsnake/blob/main/vignette/SEAsnake_vignette.pdf
-[pipeline3]: https://github.com/BIGslu/tutorials/blob/main/RNAseq/3.Hawn_RNAseq_voom.to.DEG.pdf
+[SEAsnake]: https://bigslu.github.io/SEAsnake/vignette/SEAsnake_vignette.html
+[count_to_voom]: https://bigslu.github.io/tutorials/RNAseq/2.Hawn_RNAseq_counts.to.voom.html
+[voom_to_DEG]: https://bigslu.github.io/tutorials/RNAseq/3.Hawn_RNAseq_voom.to.DEG.html
 [combat]: https://doi.org/10.1093/nargab/lqaa078
 
