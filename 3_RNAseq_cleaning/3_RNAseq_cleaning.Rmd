@@ -39,6 +39,10 @@ install.packages("tidyverse")
 #Bioconductor packages
 install.packages("BiocManager")
 BiocManager::install(c("edgeR", "limma", "biomaRt"))
+
+#GitHub packages
+install.packages("devtools")
+devtools::install("BIGslu/RNAetc")
 ```
 
 And load them into your current R session.
@@ -49,6 +53,7 @@ library(tidyverse)
 #RNAseq data
 library(edgeR)
 library(limma)
+library(RNAetc)
 
 #Note we do not load biomaRt because it has conflicts with the tidyverse.
 # We instead call its functions with biomaRt::
@@ -102,7 +107,7 @@ Overall we see that all libraries have more the 1 million sequences. Based on th
 
 Standard differential expression analyses focus on protein-coding genes as these RNA products are the most likely to result in a measurable phenotype. We annotate the counts table genes to their biotypes as well as additional identifiers with `biomaRt`.
 
-First, load the gene data base from `biomaRt`. Note that here we use `biomaRt::function( )` because we did not load this package with `library( )` earlier.
+First, load the gene data base from `biomaRt`. Note that here we use `biomaRt::function( )` because we did not load this package with `library( )` earlier. The `::` operator tells R which package contains the function and prevents downstream issues in this pipeline due to `dplyr::select` vs `biomaRt::select`.
 
 ```{r ensembl}
 #Get database
@@ -180,21 +185,37 @@ ggplot(as.data.frame(PCA$x),
   labs(x=PC1.label, y=PC2.label)
 ```
 
-We need to calculate the means and standard deviations of our PCs and create a new variable to color the points in PCA.
+We need to calculate the means and standard deviations of our PCs and create a new variable to color the points in PCA. First, let's get the summary metrics from the PCA data contained in `PCA$x`.
 
 ```{r}
-#calculate mean and sd for PC1 and PC2
-mean1 <- mean(PCA$x[,1])
-sd1 <- sd(PCA$x[,1])
-mean2 <- mean(PCA$x[,2])
-sd2 <- sd(PCA$x[,2])
-#Challenge! Calculate mean and sd for all PCs with tidyverse summarize()
+PCA.summ <- as.data.frame(PCA$x) %>% 
+  #move rownames into column of data frame
+  rownames_to_column("libID") %>% 
+  #Pivot to get all PCs in 1 column
+  pivot_longer(-libID) %>% 
+  #calculate mean and sd
+  group_by(name) %>% 
+  summarize(meanPC = mean(value),
+            sdPC = sd(value))
+PCA.summ
 
-#create variable for outliers
+#Extract a row by the PC name
+PC1.summ <- PCA.summ[PCA.summ$name == "PC1",]
+PC2.summ <- PCA.summ[PCA.summ$name == "PC1",]
+
+#create variable for outliers outside 3 sd from mean on either PC1 of PC2
 PCA2 <- as.data.frame(PCA$x) %>% 
-  mutate(outlier = ifelse(PC1 > mean1 + 3*sd1 | PC1 < mean1 - 3*sd1 |
-                            PC2 > mean2 + 3*sd2 | PC2 < mean2 - 3*sd2, 
-                           "outlier","okay"))
+  mutate(outlier = ifelse(
+    #Higher than +3 sd
+    PC1 > PC1.summ$meanPC + 3*PC1.summ$sdPC | 
+    PC2 > PC2.summ$meanPC + 3*PC2.summ$sdPC | 
+    #Lower than -3 sd
+    PC1 < PC1.summ$meanPC - 3*PC1.summ$sdPC |
+    PC2 < PC2.summ$meanPC - 3*PC2.summ$sdPC, 
+    #If any of the above are TRUE, make the variable equal to this
+    "outlier",
+    #Otherwise (else), use this
+    "okay"))
 ```
 
 Then our PCA plot reveals that there are no outliers. Note we added some additional `ggplot` customization to beautify this plot.
@@ -232,6 +253,18 @@ count.pc.mat <- count.pc %>%
 dat <- DGEList(counts=count.pc.mat, samples=meta, genes=key.filter)
 ```
 
+This object is a list of data frames. It is an`S3` object in R, because it has 3 dimensions: `list[dataframe[column]]`. You can access each data frame in the list with `$` similar to how you've used it to access columns within a data frame.
+
+```{r}
+typeof(dat)
+names(dat)
+
+#One data frame in dat
+dat$samples
+#One column in one data frame in dat
+dat$samples$libID
+```
+
 ## 2.7: Filter low abundance genes
 
 Low abundance (small counts) and rare genes (many 0 counts) are removed from the data because they:
@@ -248,11 +281,11 @@ Here we co-opt `limma`'s `voom` function to make out mean-variance plot for us.
 mv1 <- voom(dat, plot=TRUE)
 ```
 
-We use our custom function to retain only genes that are at least `min.CPM` counts per million in at least `min.sample` number of samples OR in at least `min.pct` percent of samples. Here, we use 0.5 CPM in at least 3 samples.
+We use our custom function in the package `RNAetc` to retain only genes that are at least `min.CPM` counts per million in at least `min.sample` number of samples OR in at least `min.pct` percent of samples. Here, we use 0.5 CPM in at least 3 samples.
 
 ```{r}
-dat.abund <- RNAetc::filter_rare(dat, min.CPM = 0.5, min.sample = 3,
-                                 gene.var="hgnc_symbol")
+dat.abund <- filter_rare(dat, min.CPM = 0.5, min.sample = 3,
+                         gene.var="hgnc_symbol")
 ```
 
 Plotting the filtered data, we see the red trend line no longer curves down on the left. There is still a bit of the downward tail of dots but this filtering is sufficient.
