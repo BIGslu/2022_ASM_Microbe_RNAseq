@@ -1,0 +1,83 @@
+---
+title: "Setup and installation"
+author: "Kim Dill-McFarland, kadm@uw.edu"
+date: "version `r format(Sys.time(), '%B %d, %Y')`"
+output:
+  html_document:
+    toc: yes
+    toc_depth: 3
+    toc_float:
+      collapsed: no
+  pdf_document:
+    toc: yes
+    toc_depth: '3'
+editor_options:
+  chunk_output_type: console
+urlcolor: blue
+---
+
+```{r, include=FALSE}
+#set working dir to project
+knitr::opts_knit$set(root.dir = rprojroot::find_rstudio_root_file())
+```
+
+## Prior to the workshop, please complete the following:
+
+## Install R and RStudio
+
+* Install R, <https://cran.r-project.org/index.html>
+    - If you already have R installed, please upgrade to version 4.1 or newer
+* Install RStudio (free version), <https://www.rstudio.com/products/rstudio/download/>
+
+When you open RStudio, it should look like so with multiple panels. If you see only 1 panel, then you’re likely in R, not RStudio.
+
+![](rstudio.png)
+
+## Install R packages
+
+Install R packages by running the following script in your R console (left panel in the above image).
+
+```{r eval=FALSE}
+#CRAN packages
+install.packages(c("tidyverse", "lme4"))
+
+#Bioconductor packages
+install.packages("BiocManager")
+BiocManager::install(c("edgeR", "biomaRt", "limma"))
+
+#GitHub packages
+install.packages("devtools")
+devtools::install_github("BIGslu/RNAetc")
+devtools::install_github("BIGslu/kimma")
+```
+
+## Check R package install
+
+To make sure packages are correctly installed, load them into R with `library( )`. **If you see any ERROR, please attend office hours the day before the workshop (information sent in the setup email) or come 15 minutes early to the workshop the day of.**
+
+First, the three packages that give messages upon loading.
+
+```{r}
+library(tidyverse)
+library(edgeR)
+library(lme4)
+```
+
+Then, four packages that load silently with no messages.
+
+```{r}
+library(biomaRt)
+library(limma)
+library(RNAetc)
+library(kimma)
+```
+
+#### R package versions
+
+For reproducibility, here is the complete list of software used in this workshop.
+
+```{r}
+sessionInfo()
+```
+
+***
