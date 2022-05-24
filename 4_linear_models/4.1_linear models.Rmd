@@ -73,7 +73,7 @@ p <- ggplot(modelDat, aes(x=condition, y=E)) +
   geom_boxplot() + 
   geom_jitter(shape=16, position=position_jitter(0.2)) +
   xlab("Condtion") +
-  ylab("Gene Expression Level")
+  ylab(expression(paste('Log'[2], " Expression")))
 p
 ```
 
@@ -112,19 +112,21 @@ p <- ggplot(modelDat, aes(x=condition, y=E)) +
   geom_violin() + 
   geom_jitter(shape=16, position=position_jitter(0.2)) +
   xlab("Condtion") +
-  ylab("Gene Expression Level")
+  ylab(expression(paste('Log'[2], " Expression")))
 p
 ```
 
 Or a histogram
 ```{r}
-p <- ggplot(modelDat, aes(x=E, fill = condition)) + 
-  geom_histogram() +
-  xlab("Gene Expression Level")
-p
+
+modelDat %>% ggplot(aes(x=E, fill = condition)) +
+  geom_bar() +
+  scale_x_binned() +
+  xlab(expression(paste('Log'[2], " Expression")))
+
 ```
 
-We don't have a ton of data here so these plots look a little weird and we get a message about the histogram, but this could be useful if you have more data.
+We don't have a ton of data here so these plots look a little odd, but this could be useful if you have more data.
 
 There are also statistical tests you can do to test normality. One is the Kolmogorov-Smirnov test. This test is very sensitive to departures from normality. You can also test other distributions (F-distribution, etc). The other is the Shapiro-Wilks test for normality. This test only tests for normality. 
 
@@ -165,7 +167,7 @@ p <- modelDat %>%
   ggplot(aes(x = condition, y = E, group = ptID)) +
   geom_line() +
   xlab("Condtion") +
-  ylab("Gene Expression Level")
+  ylab(expression(paste('Log'[2], " Expression")))
 p
 ```
 
@@ -244,15 +246,16 @@ residDat<- data.frame(pred = lmModBig$fitted.values,
                       resid = lmModBig$residuals)
 
 #Plot a scatterplot of our residuals vs our predicted values
-p<-residDat %>% ggplot(aes(x = pred,
-                        y = resid)) +
-  geom_point()
+p<-residDat %>% ggplot(aes(x = pred, y = resid)) +
+  geom_point() +
+  xlab("Predicted value")
+  ylab("Residual") 
 p
 ```
 
 We see a gap in our predicted values. This is just because the condition makes a big difference in our predicted values. Otherwise it looks good.  
 
-Next, we'll plot a histogram of the residuals.
+Next, we'll plot a histogram of the residuals. We are going to use base R for this plot.  
 
 ```{r}
 #Plot a histogram of our residuals.
