@@ -111,7 +111,7 @@ As you write more code, you can highlight multiple lines and then click <kbd>Run
 
 You can use R like a calculator to add (`+`), multiply (`*`), divide (`/`), and more!
 
-# Variables and Types
+## Variables and Types
 
 - character
 - logical
@@ -141,7 +141,7 @@ typeof(likes_cats)
 ```
 
 
-> ## Comments
+> #### Comments
 > Sometimes you may want to write comments in your code to help you remember
 > what your code is doing, but you don't want R to think these comments are a part
 > of the code you want to evaluate. That's where **comments** come in! Anything
@@ -153,7 +153,7 @@ typeof(likes_cats)
 >  sum(5, 6)   # adds numbers
 > ```
 
-> ## Assigning values to objects
+> #### Assigning values to objects
 > Try to assign values to some objects and observe each object after you have assigned a new value. What do you notice?
 >
 > ```{r Objects, eval = FALSE}
@@ -165,12 +165,12 @@ typeof(likes_cats)
 > name
 > ```
 >
-> > ## Solution
+> > #### Solution
 > > When we assign a value to an object, the object stores that value so we can access it later. However, if we store a new value in an object we have already created, it replaces the old value. The `height` object does not change, because we never assign it a new value.
 
 
 
-> ## Guidelines on naming objects
+> #### Guidelines on naming objects
 > - You want your object names to be explicit and not too long.
 > - They cannot start with a number (2x is not valid, but x2 is).
 > - R is case sensitive, so for example, weight_kg is different from Weight_kg.
@@ -201,9 +201,9 @@ fan_settings <- factor(c('low', 'high', 'medium', 'high', 'medium'), levels = c(
 ```
 
 
-# Functions
+## Functions
 
-> ## Viewing function documentation
+> #### Viewing function documentation
 >
 > Each function has a help page that documents what arguments the function
 > expects and what value it will return. You can bring up the help page a few
@@ -237,7 +237,7 @@ arguments, we separate the arguments with commas. For example, we can use the
 sum(5, 6)
 ```
 
-> ## Learning more about functions
+> #### Learning more about functions
 > Look up the function `round`. What does it do? What will you get as output for the following lines of code?
 >
 > ```{r functionExercise, eval = FALSE}
@@ -245,11 +245,11 @@ sum(5, 6)
 > round(3.1415,3)
 > ```
 >
-> > ## Solution
+> > #### Solution
 > > `round` rounds a number. By default, it rounds it to zero digits (in our example above, to 3). If you give it a second number, it rounds it to that number of digits (in our example above, to 3.142)
 
 
-> ## Position of the arguments in functions
+> #### Position of the arguments in functions
 > Which of the following lines of code will give you an output of 3.14? For the one(s) that don't give you 3.14, what do they give you?
 >
 > ```{r functionPositionExercise, eval = FALSE}
@@ -259,14 +259,14 @@ sum(5, 6)
 > round(2, 3.1415)
 > ```
 >
-> > ## Solution
+> > #### Solution
 > > The 2nd and 3rd lines will give you the right answer because the arguments are named, and when you use names the order doesn't matter. The 1st line will give you 3 because the default number of digits is 0. Then 4th line will give you 2 because, since you didn't name the arguments, x=2 and digits=3.1415.
 
 
 Sometimes it is helpful - or even necessary - to include the argument name, but often we can skip the argument name, if the argument values are passed in a certain order. If all this function stuff sounds confusing, don't worry! We'll see a bunch of examples as we go that will make things clearer.
 
 
-# Packages
+## Packages
 
 So far, all of the functions we have used are part of base R. 
 When you install R, these functions are included by default.
@@ -283,7 +283,9 @@ Go ahead and run that line in the **Console** by clicking the <kbd>Run</kbd> but
 library(tidyverse)
 ```
 
-> ## What's with all those messages???
+For more information on installation of the `tidyverse`, see the [setup instructions][lesson0].
+
+> #### What's with all those messages???
 >
 > When you loaded the `tidyverse` package, you probably got a message like the
 > one we got above. Don't panic! These messages are just giving you more
@@ -308,14 +310,13 @@ library(tidyverse)
 TODO: explain double-colon syntax
 
 
-> ## The tidyverse vs Base R
+> #### The tidyverse vs Base R
 > If you've used R before, you may have learned commands that are different than the ones we will be using during this workshop. We will be focusing on functions from the [tidyverse](https://www.tidyverse.org/). The "tidyverse" is a collection of R packages that have been designed to work well together and offer many convenient features that do not come with a fresh install of R (aka "base R"). These packages are very popular and have a lot of developer support including many staff members from RStudio. These functions generally help you to write code that is easier to read and maintain. We believe learning these tools will help you become more productive more quickly.
 
 
 ---
 
-# Data frames & reading data from files
-_[Back to top](#contents)_
+## Data frames & reading data from files
 
 The variable types we discussed above are useful for simple variables, but
 what if you want to store attributes about lots of different things, like patient samples? 
@@ -346,7 +347,7 @@ View(metadata)
 ```
 
 
-> ## Data objects
+> #### Data objects
 > There are many different ways to store data in R. Most objects have a table-like structure with rows and columns. We will refer to these objects generally as "data objects". If you've used R before, you many be used to calling them "data.frames". Functions from the "tidyverse" such as `read_csv` work with objects called "tibbles", which are a specialized kind of "data.frame." Another common way to store data is a "data.table". All of these types of data objects (tibbles, data.frames, and data.tables) can be used with the commands we will learn in this lesson to make plots. We may sometimes use these terms interchangeably.
 >
 > Other functions for reading datasets:

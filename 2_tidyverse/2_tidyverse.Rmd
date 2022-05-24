@@ -24,9 +24,13 @@ knitr::opts_chunk$set(fig.path = 'figures/')
 knitr::opts_knit$set(root.dir = rprojroot::find_rstudio_root_file())
 ```
 
+# 2. Introduction to the tidyverse
+
 The tidyverse is not just one package, but a collection of several packages that
 are designed to work well together for data analysis tasks. Let's load the
 tidyverse and read in the metadata again.
+
+For more information on installation, see the [setup instructions][lesson0].
 
 ```{r loadMetadata}
 library(tidyverse)
@@ -39,9 +43,9 @@ Take a look at the dataset with `View()`:
 View(metadata)
 ```
 
-# Intro dplyr
+## Intro dplyr
 
-## summarize
+### summarize
 
 <!-- could cut summarize if we need to -->
 Let's start with a useful function called `summarize()` that will let us summarize variables in our data frame. We can use it to find the mean, median, or other statistics about the dataset. Let's find the average age in days below:
@@ -106,7 +110,7 @@ metadata %>%
 ```
 
 
-## select
+### select
 
 select: remove unneeded variable (ptID_old), keep only needed variables
 
@@ -120,7 +124,7 @@ metadata %>%
   select(-ptID_old)
 ```
 
-## filter
+### filter
 
 filter: media-only samples
 
@@ -154,7 +158,7 @@ metadata %>%
 
 TODO: and / or |
 
-## mutate
+### mutate
 
 Adding new variables from existing ones
 
@@ -166,7 +170,7 @@ metadata %>%
 TODO: save to new df
 TODO: EXERCISE to get learners to try making their own mutate call
 
-# Intro ggplot
+## Intro ggplot
 
 <!-- could cut labels, other beautification if needed -->
 
@@ -329,7 +333,7 @@ metadata %>%
 ```
 We now have our first data cleaning plot, the total number of sequences per library.
 
-## Saving plots
+### Saving plots
 
 Let's make it pretty and then save the plot!
 
@@ -371,15 +375,15 @@ Take a look at it by pasting the variable name into the console: `seq_per_lib_pl
 ggsave("sequences_per_library.png", plot = seq_per_lib_plot)
 ```
 
-# Intro tidyr
+## Intro tidyr
 
-## pivot_
+### pivot_
 
 Data comes in many shapes and sizes, and one way we classify data is either "wide" or "long." Data that is "long" has one row per observation. The metadata is in a long format. <!--TODO: REVISE-->We have one row for each country for each year and each different measurement for that country is in a different column. We might describe this data as "tidy" because it makes it easy to work with `ggplot2` and `dplyr` functions (this is where the "tidy" in "tidyverse" comes from). As tidy as it may be, sometimes we may want our data in a "wide" format. Typically in "wide" format each row represents a group of observations and each value is placed in a different column rather than a different row. For example maybe we want only one row per country and want to spread the life expectancy values into different columns (one for each year).
 
 The `tidyr` package contains the functions `pivot_wider` and `pivot_longer` that make it easy to switch between the two formats. The `tidyr` package is included in the `tidyverse` package so we don't need to do anything to load it.
 
-### pivot_wider
+#### pivot_wider
 
 For each patient, we have two samples: `Media` and `Mtb`. 
 In the metadata, the only difference in these two conditions is the `libID` column (which is redundant with the `ptID` and `condition`) and the `total_seq` column.
@@ -419,7 +423,7 @@ nrow(metadata_wide)
 ncol(metadata_wide)
 ```
 
-### pivot_longer
+#### pivot_longer
 
 Everything we did with `pivot_wider`, we can reverse with `pivot_longer`.
 Maybe you receive a data frame in a wide format, but you need it in a long format.
@@ -431,7 +435,7 @@ metadata_wide %>%
                names_to = 'condition', values_to = 'total_seq')
 ```
 
-## sequence data
+### sequence data
 
 So far, we've been working with just the metadata. But this workshop is about analyzing  RNAseq data, so let's start working with actual sequencing data.
 
@@ -462,7 +466,7 @@ raw_counts_long <- raw_counts %>%
 ```
 
 
-## join_
+### join_
 
 Now let's combine our raw sequence counts with our metadata.
 To combine two data frames, we will use a `join` function.
@@ -502,7 +506,7 @@ full_data <- inner_join(metadata, raw_counts_long, by = 'libID')
 Now that we have our metadata joined with our raw count data,
 we're ready to clean and analyze it!
 
-# Using our joined dataset
+## Using our joined dataset
 
 ```{r}
 top_10_abundant_genes <- full_data %>% 

@@ -23,31 +23,17 @@ knitr::opts_chunk$set(fig.height=2.5)
 knitr::opts_knit$set(root.dir = rprojroot::find_rstudio_root_file())
 ```
 
-# Overview
+# 3. RNA-seq data cleaning
+
+## Overview
 
 Here, we take a raw RNA-seq counts table through quality assessment, filtering, and normalization. For more information on how counts were generated, see our [SEAsnake pipeline][SEAsnake]. These data are human, bulk, paired-end RNA-seq, but this pipeline can be applied to other organisms or single-read libraries. 
 
-# 0. Setup
-## Software
+## Load packages
 
-This pipeline should be completed in [R][R] and [RStudio][RStudio]. You should also install the following packages.
+Load the following packages. For more information on installation, see the [setup instructions][lesson0].
 
-```{r eval=FALSE}
-#CRAN packages
-install.packages("tidyverse")
-
-#Bioconductor packages
-install.packages("BiocManager")
-BiocManager::install(c("edgeR", "limma", "biomaRt"))
-
-#GitHub packages
-install.packages("devtools")
-devtools::install("BIGslu/RNAetc")
-```
-
-And load them into your current R session.
-
-```{r warning=FALSE, message=FALSE}
+```{r}
 #Data manipulation and plotting
 library(tidyverse)
 #RNAseq data
@@ -62,7 +48,7 @@ library(RNAetc)
 set.seed(651)
 ```
 
-# 1. Read in data
+## Read in data
 
 Using the tidyverse `read_` functions you saw earlier today, read in the counts and sample metadata files.
 
@@ -71,10 +57,10 @@ count <- read_csv("0_data/raw_counts.csv")
 meta <- read_csv("0_data/metadata.csv")
 ```
 
-# 2. Quality-filter data
-## 2.1: Filter poor-quality libraries
+## Quality-filter data
+### Filter poor-quality libraries
 
-We assess library quality using metrics from [samtools `flagstat`](http://www.htslib.org/doc/samtools-flagstat.html) and [`picard`](https://gatk.broadinstitute.org/hc/en-us/articles/360037057492-CollectRnaSeqMetrics-Picard-). Here, we will only look at total sequences for brevity but you can find more quality measures of interest such as percent alignment and median CV coverage in our full [tutorial][count_to_voom].
+We assess library quality using metrics from [samtools `flagstat`][flagstat] and [`picard`][picard]. Here, we will only look at total sequences for brevity but you can find more quality measures of interest such as percent alignment and median CV coverage in our full [tutorial][count_to_voom].
 
 Using `ggplot`, let's plot the total sequences per library.
 
@@ -103,7 +89,7 @@ ggplot(meta,
 
 Overall we see that all libraries have more the 1 million sequences. Based on this and other quality metrics not shown here, we determine that all libraries pass quality check. 
 
-## 2.2: Filter non-protein-coding genes
+### Filter non-protein-coding genes
 
 Standard differential expression analyses focus on protein-coding genes as these RNA products are the most likely to result in a measurable phenotype. We annotate the counts table genes to their biotypes as well as additional identifiers with `biomaRt`.
 
@@ -146,7 +132,7 @@ count.pc <- count %>%
 
 This removes `r nrow(count)-nrow(count.pc)` genes from this data set and leaves `r nrow(count.pc)` genes for analysis.
 
-## 2.3: Filter PCA outliers
+### Filter PCA outliers
 
 Sometimes one or more libraries will appear as outliers in PCA. We define this as any library more than 3 standard deviations away from the mean PC1 and/or PC2.
 
@@ -235,11 +221,11 @@ ggplot(PCA2, aes(x=PC1, y=PC2)) +
 
 We recommend that you initially remove dramatic outliers but leave those that are borderline or questionable. Then, you can re-assess outliers after gene filtering and normalization. You may find that some are no longer outliers after these steps. If they are, you can return to this step and remove them before repeating subsequent steps. 
 
-## 2.4 Additional steps
+### Additional steps
 
 This workshop covers the minimum quality control and filtering needed for RNA-seq libraries. Checkout our [full tutorial](https://github.com/BIGslu/tutorials/blob/main/RNAseq/2.Hawn_RNAseq_counts.to.voom.pdf) for additional QC metrics, batch effects, custom plotting functions, and more!
 
-## 2.5: Create DGEList
+### Create DGEList
 
 At this stage, we've completed sample filtering and can collapse our count and meta data into a single list object. This allows us to shorten our long object names as well as works efficiently with the remaining cleaning steps.
 
@@ -265,7 +251,7 @@ dat$samples
 dat$samples$libID
 ```
 
-## 2.7: Filter low abundance genes
+### Filter low abundance genes
 
 Low abundance (small counts) and rare genes (many 0 counts) are removed from the data because they:
 
@@ -302,8 +288,8 @@ You may also wish to look for specific genes of interest and ensure they are not
 "IFNG" %in% rownames(dat.abund$counts)
 ```
 
-# 3. Normalize data
-## 3.1: Trimmed mean of M (TMM)
+## Normalize data
+### Trimmed mean of M (TMM)
 
 RNA-seq counts are not independent within a library and not comparable across libraries. A library with 1 million sequences will have higher counts for most genes than one with 1 thousand sequences. We correct for this aspect of the data with the following normalization steps.
 
@@ -317,7 +303,7 @@ The calculated scaling factors are then applied to the counts table automaticall
 dat.abund.norm <- calcNormFactors(dat.abund, method = "TMM")
 ```
 
-## 3.2: voom aka log2 counts per million (CPM)
+### voom aka log2 counts per million (CPM)
 
 We continue normalization by converting counts to CPM within each sample, thus accounting for differential sampling depth. We also perform log2 transformation, because RNA-seq data are heavily right-skewed and thus, violate assumptions of normality.
 
@@ -343,7 +329,7 @@ dat.abund.norm.voom <- voomWithQualityWeights(
                            plot=TRUE)
 ```
 
-# 4. Final data structure
+## Final data structure
 
 Let's review the final data structure. We access each data frame within the `Elist` object using `$`. The normalized log2 CPM expression data are contained in `E`.
 
@@ -369,7 +355,7 @@ Gene-level quality weights are in `weights`.
 dat.abund.norm.voom$weights[1:3,1:3]
 ```
 
-# 5. Explorative analysis
+## Explorative analysis
 
 To get an initial sense of the cleaned data, we plot some variables of interest. Here, we see a clear Mtb infection signal and no relationship to sex.
 
@@ -407,7 +393,7 @@ ggplot(PCA.meta, aes(x=PC1, y=PC2)) +
   coord_fixed(ratio=1)
 ```
 
-# 6. Save
+## Save
 
 Write final voom object as `RData`
 

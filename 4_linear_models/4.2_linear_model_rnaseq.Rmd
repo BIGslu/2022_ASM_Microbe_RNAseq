@@ -23,41 +23,26 @@ knitr::opts_chunk$set(fig.height=2.5, fig.width = 8.5)
 knitr::opts_knit$set(root.dir = rprojroot::find_rstudio_root_file())
 ```
 
-# Overview
+# 4.2 RNA-seq linear modeling
+## Overview
 
 Thus far, we've modeled one gene at a time. However, RNA-seq data sets have 1000s of genes! Here, we introduce some R packages designed for running linear models across all genes in an efficient manor.
 
-# 0. Setup
-## Software
+## Load packages
 
-This pipeline should be completed in [R][R] and [RStudio][RStudio]. You should also install the following packages.
+Load the following packages. For more information on installation, see the [setup instructions][lesson0].
 
-```{r eval=FALSE}
-#CRAN packages
-install.packages("tidyverse")
-
-#Bioconductor packages
-install.packages("BiocManager")
-BiocManager::install(c("limma"))
-
-#GitHub packages
-install.packages("devtools")
-devtools::install_github("BIGslu/kimma")
-```
-
-And load them into your current R session.
-
-```{r warning=FALSE, message=FALSE}
+```{r}
 #Data manipulation and plotting
 library(tidyverse)
 #Linear modeling
-library(`kimma`)
-library(`limma`)
+library(kimma)
+library(limma)
 
 set.seed(651)
 ```
 
-# 1. Load data
+## Load data
 
 All counts, gene, and sample metadata are contained in a single object.
 
@@ -68,8 +53,8 @@ attach("3_RNAseq_cleaning/dat_voom.RData")
 dat <- dat.abund.norm.voom
 ```
 
-# 2. Modeling in `limma`
-## 2.1 Simple linear regression in `limma`
+## Modeling in `limma`
+### Simple linear regression in `limma`
 
 `limma` take model inputs as a model matrix instead of the `~ variable` formula format you've seen with `lm` and `lmer`. This matrix encodes all the variables from the formula as 0 for N and 1 for Y. For example, here is the model matrix for the formula `~ condition + sex`
 
@@ -138,7 +123,7 @@ fdr_limma <- extract_lmFit(design = mm_limma, fit = efit_limma)
 head(fdr_limma)
 ```
 
-## 2.2 Paired sample design in `limma`
+### Paired sample design in `limma`
 
 `limma` uses a shortcut to model paired sample designs. Unlike what you saw with `lmer` (which is a true mixed effect model), `limma` estimates the mean correlation of gene expression between pairs. This is an okay approximation of a mixed effects model and runs very fast.
 
@@ -204,7 +189,7 @@ data.frame(`limma` = efit_limma$sigma,
   labs(title = "Sigma")
 ```
 
-# 3. Modeling in `kimma`
+## Modeling in `kimma`
 
 `kimma` supports more flexible modeling of RNA-seq data including simple linear and linear mixed effects models with co-variates, weights, random effects, and matrix random effects. Let's run the same models as we did with `limma`.
 
@@ -263,7 +248,7 @@ mean(fit_kimma$lme.fit$AIC)
 
 So in this case, which model do we go with? It would be nice if one model showed consistently better fit across our genes, but this rarely happens. For this experiment, we know we have a paired design so either `limma` with `duplicateCorrelation` or `kimma` with `run.lme` is appropriate. In our experience, a true mixed effects model in `kimma` yields fewer false positive genes when you have a paired design, even if metrics like AIC do not support it as the best fit model.
 
-# 4. Other models
+## Other models
 
 We don't have time to go over all the potential models of these data. So here's a quick reference for you to explore later on.
 
@@ -287,7 +272,7 @@ For more help with `limma`, see Chapter 15 <http://bioconductor.org/packages/dev
 
 For `kimma`, see <https://github.com/BIGslu/tutorials/blob/main/RNAseq/3.Hawn_RNAseq_voom.to.DEG.pdf>
 
-# 5. Useful kimma plots
+## Useful kimma plots
 
 If you use `kimma`, our other package `BIGpicture` has several plotting functions you may find useful. Here are some examples.
 

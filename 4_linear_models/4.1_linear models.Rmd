@@ -1,5 +1,5 @@
 ---
-title: "RNA-seq linear modeling"
+title: "Linear modeling"
 subtitle: "t-tests, linear models, linear mixed effect models"
 author: "Holly Hartman, heh39@case.edu"
 date: "version `r format(Sys.time(), '%B %d, %Y')`"
@@ -17,14 +17,10 @@ editor_options:
 urlcolor: blue
 ---
 
-# Overview
-
-Thus far, we've modeled one gene at a time. However, RNA-seq data sets have 1000s of genes! Here, we introduce some R packages designed for running linear models across all genes in an efficient manor.
-
-# 0. Setup
-## Software
-
-This pipeline should be completed in [R][R] and [RStudio][RStudio]. You should also install the following packages.
+```{r, include=FALSE}
+#set working dir to project
+knitr::opts_knit$set(root.dir = rprojroot::find_rstudio_root_file())
+```
 
 # 4.1 Linear modeling
 ## Overview
@@ -44,7 +40,7 @@ library(lme4)
 set.seed(7789)
 ```
 
-# 1. Load data
+## Load data
 
 For this section, we're just going to be focusing on one gene, IFNG, which you collapsed into one data frame in the previous section.
 
@@ -54,8 +50,7 @@ modelDat<-read.csv('3_RNAseq_cleaning/IFNG.csv')
 
 Awesome, we have our data! Let's get to the fun part - statistics!
 
-
-# 2. Introduction to sampling
+## Introduction to sampling
 
 In research, we want to try to learn about a target population. However, we usually can't get data about the entire population, so we take a sample and get data about the sample. Then, using the data about the sample, we want to make inferences about the entire population. 
 
@@ -63,7 +58,7 @@ For example, let's say we wanted to know if people who play video games more tha
 
 <img src="https://github.com/BIGslu/2022_ASM_Microbe_RNAseq/blob/main/4_linear_models/samplingEx.png?raw=true" width="600"/>
 
-# 3. T-tests
+## T-tests
 
 T-tests examine the means of two groups. To do a t-test you need to have a binary variable and a continuous variable. Then the test examines if the average of that continuous variable is the same for each binary variable. Using the example above, our binary variable would be if the person plays video games more or less than 10 hours a week and the continuous variable would be the amount spent on electronics. 
 
@@ -80,7 +75,7 @@ From the results we get the t-test statistic (t = 3.6817), the degrees of freedo
 
 These results suggest that there is a statistically significant difference in gene expression for the gene COL5A3 between the Media and the Mtb infection conditions. (In statistics language: We reject the null hypothesis that the mean gene expression is equal in the Media and Mtb conditions)
 
-## 3.1 Paired t-test
+### Paired t-test
 A paired t-test is very similar to a regular t-test, except here we are going to be leveraging the fact that each patients has a Media sample and a Mtb infection sample. That is, one person generated both pieces of data. 
 
 Another example of paired data might be pre/post tests where a person is given a test prior to some exposure and after some exposure to determine if the exposure caused a difference in test results. For example, we might give people a memory test, then have them do an obstacle course and get physically worn out, then have them do the memory test again to see if physical tiredness causes a change in memory abilities. 
@@ -106,7 +101,7 @@ ptTestRes
 
 Here, we see we get slightly different results. We still get the t-test, degrees of freedom, and p-value, but the values have slightly changed. This is because we're now testing if the difference between the matched pairs is 0. The estimate of the mean of the differences is -0.7139, which is actually the same as the difference between the two means from before (Media = 5.31, Mtb = 4.60, difference = -0.71). This answer is more accurate because know that the data came from the same person and not two independent samples. 
 
-# 4 Linear models
+## Linear models
 One major limitations of t-tests is that we can't adjust for any other information we know about the patients. We have a lot of other information in our `targets` dataset including sex, age, total sequences. What if these variables also have an impact on gene expression in each of the conditions? The t-test wouldn't be able to tell us that. 
 
 This is when we would want to use a linear model! Let's start with a linear model not adjusting for other factors and see what we get. 
@@ -135,7 +130,7 @@ AIC(lmModBig)
 
 We see that the AIC is lower for our smaller model. This means we might not actually be benefiting from adding those extra variables to our model. Always use your scientific reasoning though. If you know that there is a difference by age or sex, keep them in the model even if the AIC says otherwise. Be smarter than your data!
 
-# 5 Linear mixed effects models
+## Linear mixed effects models
 The issue with the linear models is the same issue we had with a regular t-test. We're not using the fact that the one person generated two pieces of data! 
 
 To do that, we will use a mixed effects model. Mixed effects models are similar to linear models, except we have a "random effect" that accounts for individual differences between people. 
