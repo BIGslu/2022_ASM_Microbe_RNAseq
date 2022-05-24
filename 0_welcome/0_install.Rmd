@@ -39,7 +39,7 @@ Install R packages by running the following script in your R console (left panel
 
 ```{r eval=FALSE}
 #CRAN packages
-install.packages(c("tidyverse", "lme4"))
+install.packages(c("tidyverse", "lme4", "lmerTest"))
 
 #Bioconductor packages
 install.packages("BiocManager")
@@ -61,6 +61,7 @@ First, the three packages that give messages upon loading.
 library(tidyverse)
 library(edgeR)
 library(lme4)
+library(lmerTest)
 ```
 
 Then, four packages that load silently with no messages.
