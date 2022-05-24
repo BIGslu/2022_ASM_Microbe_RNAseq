@@ -36,8 +36,6 @@ Load the following packages. For more information on installation, see the [setu
 library(tidyverse)
 #Linear modeling
 library(lme4)
-
-set.seed(7789)
 ```
 
 ## Load data
@@ -83,18 +81,19 @@ Another example of paired data might be pre/post tests where a person is given a
 <img src="https://github.com/BIGslu/2022_ASM_Microbe_RNAseq/blob/main/4_linear_models/pairedDataEx.png?raw=true" width="600"/>
 
 
-To do the paired t-test, we will first need to reshape our data. 
+To do the paired t-test, we will first need to modify our data. 
 ```{r}
-modelDat2 <- reshape(modelDat, direction = "wide", 
-                  idvar = "ptID", timevar = "condition")
-
+modelDatPair<-modelDat %>% 
+  select(c(E, condition, ptID)) %>%
+  pivot_wider(names_from = condition,
+              values_from = E)
 ```
 
 Now we can run the paired t-test with this data:
 
 ```{r}
-ptTestRes<-t.test(modelDat2$gene.Mtb,
-                  modelDat2$gene.Media, 
+ptTestRes<-t.test(modelDatPair$Mtb,
+                  modelDatPair$Media, 
                   paired = T)
 ptTestRes
 ```
