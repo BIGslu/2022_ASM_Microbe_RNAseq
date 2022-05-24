@@ -13,7 +13,7 @@ Welcome! This workshop takes you through RNA-seq differential gene expression an
 
 ## Instructors
 
-Kim Dill-McFarland, PhD. Senior Bioinformatician in the Div of Allergy and Infectious Diseases at the U of Washington. Kim leads a team of bioinformaticians who investigate how the human body responds to and fights off respiratory diseases like tuberculosis, asthma, and COVID. She's 
+[Kim Dill-McFarland, PhD](https://kdillmcfarland.github.io/) is a Senior Bioinformatician in the Div of Allergy and Infectious Diseases at the U of Washington. Kim leads a team of bioinformaticians who use sequencing and other high-throughput techniques to research how the human immune system responds to diseases like tuberculosis, asthma, and COVID. Kim has been coding in R for more than 10 years and taught R as an Instructor at the U of British Columbia as well as volunteer for the Carpentries and RLadies.
 
 Kelly Sovacool.
 
