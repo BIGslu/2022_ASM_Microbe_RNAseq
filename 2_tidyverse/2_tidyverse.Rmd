@@ -548,6 +548,7 @@ full_data %>%
 * [Workshop index][index]
 * Previous lesson: [Intro to R and RStudio][lesson1]
 * Next lesson: [RNA-seq data cleaning][lesson3]
+* [Lesson source code][lesson2rmd]
 
 ***
 
@@ -558,3 +559,9 @@ full_data %>%
 [lesson3]: https://bigslu.github.io/2022_ASM_Microbe_RNAseq/3_RNAseq_cleaning/3_RNAseq_cleaning.html
 [lesson4.1]: https://bigslu.github.io/2022_ASM_Microbe_RNAseq/4_linear_models/4.1_linear-models.html
 [lesson4.2]: https://bigslu.github.io/2022_ASM_Microbe_RNAseq/4_linear_models/4.2_linear_model_rnaseq.html
+[lesson0rmd]: https://github.com/BIGslu/2022_ASM_Microbe_RNAseq/tree/main/0_welcome/0_install.Rmd
+[lesson1rmd]: https://github.com/BIGslu/2022_ASM_Microbe_RNAseq/tree/main/1_introR/1_intro-R.Rmd
+[lesson2rmd]: https://github.com/BIGslu/2022_ASM_Microbe_RNAseq/tree/main/2_tidyverse/2_tidyverse.Rmd
+[lesson3rmd]: https://github.com/BIGslu/2022_ASM_Microbe_RNAseq/tree/main/3_RNAseq_cleaning/3_RNAseq_cleaning.Rmd
+[lesson4.1rmd]: https://github.com/BIGslu/2022_ASM_Microbe_RNAseq/tree/main/4_linear_models/4.1_linear-models.Rmd
+[lesson4.2rmd]: https://github.com/BIGslu/2022_ASM_Microbe_RNAseq/tree/main/4_linear_models/4.2_linear_model_rnaseq.Rmd

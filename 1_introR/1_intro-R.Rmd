@@ -225,7 +225,6 @@ Warnings, are probably best to resolve or at least understand why they are comin
 
 ## Functions
 
-
 Earlier, the `typeof()` function took the variable we provided and told us the 
 `type` that the variable belonged to.
 A function is a way to re-use code, either written by you or by someone else.
@@ -434,6 +433,7 @@ meta[1:4, c('ptID', 'condition')]
 * [Workshop index][index]
 * Previous lesson: [Setup and installation][lesson0]
 * Next lesson: [Intro to the tidyverse][lesson2]
+* [Lesson source code][lesson1rmd]
 
 ***
 
@@ -444,3 +444,9 @@ meta[1:4, c('ptID', 'condition')]
 [lesson3]: https://bigslu.github.io/2022_ASM_Microbe_RNAseq/3_RNAseq_cleaning/3_RNAseq_cleaning.html
 [lesson4.1]: https://bigslu.github.io/2022_ASM_Microbe_RNAseq/4_linear_models/4.1_linear-models.html
 [lesson4.2]: https://bigslu.github.io/2022_ASM_Microbe_RNAseq/4_linear_models/4.2_linear_model_rnaseq.html
+[lesson0rmd]: https://github.com/BIGslu/2022_ASM_Microbe_RNAseq/tree/main/0_welcome/0_install.Rmd
+[lesson1rmd]: https://github.com/BIGslu/2022_ASM_Microbe_RNAseq/tree/main/1_introR/1_intro-R.Rmd
+[lesson2rmd]: https://github.com/BIGslu/2022_ASM_Microbe_RNAseq/tree/main/2_tidyverse/2_tidyverse.Rmd
+[lesson3rmd]: https://github.com/BIGslu/2022_ASM_Microbe_RNAseq/tree/main/3_RNAseq_cleaning/3_RNAseq_cleaning.Rmd
+[lesson4.1rmd]: https://github.com/BIGslu/2022_ASM_Microbe_RNAseq/tree/main/4_linear_models/4.1_linear-models.Rmd
+[lesson4.2rmd]: https://github.com/BIGslu/2022_ASM_Microbe_RNAseq/tree/main/4_linear_models/4.2_linear_model_rnaseq.Rmd
