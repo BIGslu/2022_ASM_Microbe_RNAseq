@@ -34,13 +34,13 @@ For more information on installation, see the [setup instructions][lesson0].
 
 ```{r loadMetadata}
 library(tidyverse)
-metadata <- read_csv("0_data/metadata.csv")
+meta <- read_csv("0_data/metadata.csv")
 ```
 
 Take a look at the dataset with `View()`:
 
 ```{r, eval=FALSE}
-View(metadata)
+View(meta)
 ```
 
 ## Intro dplyr
@@ -51,7 +51,7 @@ View(metadata)
 Let's start with a useful function called `summarize()` that will let us summarize variables in our data frame. We can use it to find the mean, median, or other statistics about the dataset. Let's find the average age in days below:
 
 ```{r}
-summarize(metadata, mean_age_days = mean(age_dys))
+summarize(meta, mean_age_days = mean(age_dys))
 ```
 
 The first argument to the summarize function is our data frame, and the second
@@ -62,17 +62,17 @@ argument is a new variable that we want summarize to create from the `age_dys` c
 Instead of including the data as an argument, we can use the *pipe operator* `%>%` to pass the data value into the `summarize` function. 
 
 ```{r Avgage_dysWithPipe}
-metadata %>% summarize(mean_age_days = mean(age_dys))
+meta %>% summarize(mean_age_days = mean(age_dys))
 ```
  
-This line of code will do the exact same thing as our first summary command, but the piping function tells R to use the `metadata` data frame as the first argument in the next function.
+This line of code will do the exact same thing as our first summary command, but the piping function tells R to use the `meta` data frame as the first argument in the next function.
 
 This lets us "chain" together multiple functions, which will be helpful later. Note that the pipe (`%>%`) is a bit different from using the ggplot plus (`+`). Pipes take the output from the left side and use it as input to the right side. Plusses layer on additional information (right side) to a preexisting plot (left side). 
  
 We can also add an <kdb>Enter</kdb> to make it look nicer:  
 
 ```{r Avgage_dysWithPipe2}
-metadata %>%
+meta %>%
   summarize(mean_age_days = mean(age_dys))
 ```
 
@@ -83,28 +83,28 @@ Since we use the pipe operator so often, there is a keyboard shortcut for it in 
 > ## Pro tip: Saving a new dataframe
 > Notice that when we run the following code, we are not actually saving a new variable: 
 > ```{r Avgage_dysWithPipe3, eval = FALSE}
-> metadata %>%
+> meta %>%
 >   summarize(mean_age_days=mean(age_dys))
 > ```
-> This simply outputs what we have created, but does not change actually change `metadata` or save a new dataframe. To save a new dataframe, we could run: 
+> This simply outputs what we have created, but does not change actually change `meta` or save a new dataframe. To save a new dataframe, we could run: 
 > ```{r saveNewDF, eval = FALSE}
-> metadata_summarized <- metadata %>%
+> meta_summarized <- meta %>%
 >   summarize(mean_age_days=mean(age_dys))
 > ```
-> Or if we want to change `metadata` itself: 
+> Or if we want to change `meta` itself: 
 > ```{r overwriteDF, eval = FALSE}
-> metadata <- metadata %>%
+> meta <- meta %>%
 >   summarize(mean_age_days=mean(age_dys))
 > ```
-> IMPORTANT: This would overwrite the existing `metadata` object. 
+> IMPORTANT: This would overwrite the existing `meta` object. 
 > 
-> For now, we will not be saving dataframes, since we are just experimenting with `dyplr` functions, but it will be useful later on in this lesson. 
+> For now, we will not be saving dataframes, since we are just experimenting with `dplyr` functions, but it will be useful later on in this lesson. 
 > 
 
 ### group_by
 
 ```{r}
-metadata %>% 
+meta %>% 
   group_by(sex) %>% 
   summarize(mean_age_days = mean(age_dys))
 ```
@@ -115,12 +115,12 @@ metadata %>%
 select: remove unneeded variable (ptID_old), keep only needed variables
 
 ```{r}
-metadata %>% 
+meta %>% 
   select(ptID, age_dys)
 ```
 
 ```{r}
-metadata %>% 
+meta %>% 
   select(-ptID_old)
 ```
 
@@ -129,7 +129,7 @@ metadata %>%
 filter: media-only samples
 
 ```{r}
-metadata %>% 
+meta %>% 
   filter(condition == 'Media')
 ```
 
@@ -148,11 +148,11 @@ TODO: COMPARISON operators == != < <=
 
 
 ```{r}
-metadata %>% 
+meta %>% 
   filter(condition != 'Mtb')
 ```
 ```{r}
-metadata %>% 
+meta %>% 
   filter(condition == 'Media', total_seq > 7000000)
 ```
 
@@ -163,7 +163,7 @@ TODO: and / or |
 Adding new variables from existing ones
 
 ```{r}
-metadata %>% 
+meta %>% 
   mutate(age_yrs = age_dys / 365.25)
 ```
 
@@ -180,7 +180,7 @@ reasons people like using R so much. All plots made using the `ggplot2` package
 start by calling the `ggplot()` function. 
 
 ```{r}
-metadata %>% ggplot()
+meta %>% ggplot()
 ```
 
 
@@ -188,8 +188,8 @@ When we run this code, the **Plots** tab will pop to the front in the lower
 right corner of the RStudio screen. Right now, we just see a big grey rectangle.
 
 What we've done is created a ggplot object and told it we will be using the data
-from the `metadata` object that we've loaded into R. We've done this by
-calling the `ggplot()` function with `metadata` as the `data` argument.
+from the `meta` object that we've loaded into R. We've done this by
+calling the `ggplot()` function with `meta` as the `data` argument.
 
 So we've made a plot object, now we need to start telling it what we actually
 want to draw in this plot. The elements of a plot have a bunch of properties
@@ -198,10 +198,10 @@ like an x and y position, a size, a color, etc. These properties are called
 dataset to an aesthetic in our plot. In ggplot, we can do this by creating an
 "aesthetic mapping", which we do with the `aes()` function.
 
-To create our plot, we need to map variables from our `metadata` object to
+To create our plot, we need to map variables from our `meta` object to
 ggplot aesthetics using the `aes()` function. Since we have already told
-`ggplot` that we are using the data in the `metadata` object, we can
-access the columns of `metadata` using the object's column names.
+`ggplot` that we are using the data in the `meta` object, we can
+access the columns of `meta` using the object's column names.
 (Remember, R is case-sensitive, so we have to be careful to match the column
 names exactly!)
 
@@ -211,7 +211,7 @@ highlighting them and pressing <kbd>Ctrl</kbd>+<kbd>Enter</kbd> on your
 keyboard:
 
 ```{r, ggplotX}
-metadata %>% 
+meta %>% 
 ggplot() +
   aes(y = total_seq)
 ```
@@ -228,7 +228,7 @@ column name isn't very pretty as an x-axis label, so let's add the `labs()`
 function to make a nicer label for the x axis
 
 ```{r}
-metadata %>% 
+meta %>% 
 ggplot() +
   aes(y = total_seq) +
   labs(y = "Total sequences")
@@ -237,7 +237,7 @@ ggplot() +
 OK. That looks better. 
 
 ```{r}
-metadata %>% 
+meta %>% 
 ggplot() +
   aes(x = age_dys, y = total_seq) +
   labs(x = "Age (days)", y = "Total sequences")
@@ -253,7 +253,7 @@ for each value in the data set. To do this, we add `geom_point()` to our plot
 object:
 
 ```{r}
-metadata %>% 
+meta %>% 
 ggplot() +
   aes(x = age_dys, y = total_seq) +
   labs(x = "Age (days)", y = "Total sequences") +
@@ -265,7 +265,7 @@ One thing we could do is use a different color for the sample conditions. To map
 condition of each point to a color, we will again use the `aes()` function:
 
 ```{r}
-metadata %>% 
+meta %>% 
 ggplot() +
   aes(x = age_dys, y = total_seq, color = condition) +
   labs(x = "Age (days)", y = "Total sequences") +
@@ -275,10 +275,10 @@ ggplot() +
 So far, we've been using `geom_point()` to plot two continuous (numeric) variables.
 What if we want to plot a categorical variable and a numeric variable?
 
-Using the `metadata` data, use ggplot to create a box plot with continent on the x axis and life expectancy on the y axis. 
+Using the `meta` data, use ggplot to create a box plot with continent on the x axis and life expectancy on the y axis. 
 
 ```{r}
-metadata %>% 
+meta %>% 
  ggplot() +
   aes(x = condition, y = total_seq) +
   geom_boxplot()
@@ -289,13 +289,13 @@ This type of visualization makes it easy to compare the range and spread of valu
 Another way to plot a categorical and a continuous variable is with a bar plot.
 
 ```{r}
-metadata %>% 
+meta %>% 
   ggplot() +
   aes(x = libID, y = total_seq) +
   geom_col()
 ```
 ```{r}
-metadata %>% 
+meta %>% 
   ggplot() +
   aes(x = libID, y = total_seq) +
   geom_col() +
@@ -305,32 +305,33 @@ metadata %>%
 Let's add color!
 
 ```{r}
-metadata %>% 
+meta %>% 
   ggplot() +
   aes(x = libID, y = total_seq, fill = condition) +
   geom_col() +
   coord_flip()
 ```
 ```{r}
-metadata %>% 
+meta %>% 
   ggplot() +
   aes(x = ptID, y = total_seq, fill = condition) +
   geom_col() +
   coord_flip()
 ```
 ```{r}
-metadata %>% 
+meta %>% 
   ggplot() +
   aes(x = ptID, y = total_seq, fill = condition) +
   geom_col(position = position_dodge()) +
   coord_flip()
 ```
 ```{r}
-metadata %>% 
+meta %>% 
   ggplot() +
   aes(x = ptID, y = total_seq, fill = condition) +
   geom_col(position = position_dodge())
 ```
+
 We now have our first data cleaning plot, the total number of sequences per library.
 
 ### Saving plots
@@ -340,7 +341,7 @@ Let's make it pretty and then save the plot!
 Add labels
 
 ```{r}
-metadata %>% 
+meta %>% 
   ggplot() +
   aes(x = ptID, y = total_seq, fill = condition) +
   geom_col(position = position_dodge()) + 
@@ -350,7 +351,7 @@ metadata %>%
 change theme
 
 ```{r}
-metadata %>% 
+meta %>% 
   ggplot() +
   aes(x = ptID, y = total_seq, fill = condition) +
   geom_col(position = position_dodge()) + 
@@ -361,7 +362,7 @@ metadata %>%
 save to variable
 
 ```{r}
-seq_per_lib_plot <- metadata %>% 
+seq_per_lib_plot <- meta %>% 
   ggplot() +
   aes(x = ptID, y = total_seq, fill = condition) +
   geom_col(position = position_dodge()) + 
@@ -379,7 +380,7 @@ ggsave("sequences_per_library.png", plot = seq_per_lib_plot)
 
 ### pivot_
 
-Data comes in many shapes and sizes, and one way we classify data is either "wide" or "long." Data that is "long" has one row per observation. The metadata is in a long format. <!--TODO: REVISE-->We have one row for each country for each year and each different measurement for that country is in a different column. We might describe this data as "tidy" because it makes it easy to work with `ggplot2` and `dplyr` functions (this is where the "tidy" in "tidyverse" comes from). As tidy as it may be, sometimes we may want our data in a "wide" format. Typically in "wide" format each row represents a group of observations and each value is placed in a different column rather than a different row. For example maybe we want only one row per country and want to spread the life expectancy values into different columns (one for each year).
+Data comes in many shapes and sizes, and one way we classify data is either "wide" or "long." Data that is "long" has one row per observation. The metadata is in a long format. <!--TODO: REVISE-->We have one row for each patient sample and each variable is in a different column. We might describe this data as "tidy" because it makes it easy to work with `ggplot2` and `dplyr` functions (this is where the "tidy" in "tidyverse" comes from). As tidy as it may be, sometimes we may want our data in a "wide" format. Typically in "wide" format each row represents a group of observations and each value is placed in a different column rather than a different row. For example maybe we want only one row per country and want to spread the life expectancy values into different columns (one for each year).
 
 The `tidyr` package contains the functions `pivot_wider` and `pivot_longer` that make it easy to switch between the two formats. The `tidyr` package is included in the `tidyverse` package so we don't need to do anything to load it.
 
@@ -392,16 +393,17 @@ This is called "pivoting" the data frame "wider" because we rearrange it by crea
 Let's try it!
 
 ```{r}
-metadata %>% 
+meta %>% 
   select(-libID) %>% 
   pivot_wider(names_from = condition, values_from = total_seq)
 ```
-Notice here that we tell `pivot_wider()` which columns to pull the names we wish our new columns to be named from the year variable, and the values to populate those columns from the <!-- TODO --> lifeExp variable. (Again, neither of which have to be in quotes in the code when there are no special characters or spaces - certainly an incentive not to use special characters or spaces!) We see that the resulting table has new columns by year, and the values populate it with our remaining variables dictating the rows.
+
+Notice here that we tell `pivot_wider()` which columns to pull the names we wish our new columns to be named from the year variable, and the values to populate those columns from the condition variable. (Again, neither of which have to be in quotes in the code when there are no special characters or spaces - certainly an incentive not to use special characters or spaces!) We see that the resulting table has new columns by year, and the values populate it with our remaining variables dictating the rows.
 
 Maybe we should assign those columns more informative names:
 
 ```{r}
-metadata %>% 
+meta %>% 
   select(-libID) %>% 
   pivot_wider(names_from = condition, values_from = total_seq,
               names_prefix = "total_seq_")
@@ -410,17 +412,18 @@ metadata %>%
 And now let's save the new wider metadata to a new variable:
 
 ```{r}
-metadata_wide <- metadata %>% 
+meta_wide <- meta %>% 
   select(-libID) %>% 
   pivot_wider(names_from = condition, values_from = total_seq)
 ```
 
 Notice that the number of rows and columns has changed:
+
 ```{r}
-nrow(metadata)
-ncol(metadata)
-nrow(metadata_wide)
-ncol(metadata_wide)
+nrow(meta)
+ncol(meta)
+nrow(meta_wide)
+ncol(meta_wide)
 ```
 
 #### pivot_longer
@@ -430,7 +433,7 @@ Maybe you receive a data frame in a wide format, but you need it in a long forma
 Here's how we can get back to a long data frame:
 
 ```{r}
-metadata_wide %>% 
+meta_wide %>% 
   pivot_longer(c(Media, Mtb), 
                names_to = 'condition', values_to = 'total_seq')
 ```
@@ -488,7 +491,7 @@ In an "inner join", the new data frame only has those rows where the same key is
 <img src="https://github.com/BIGslu/2022_ASM_Microbe_RNAseq/blob/main/2_tidyverse/images/r-data-analysis/join-inner.png?raw=true" width="400"/>
 
 ```{r}
-inner_join(metadata, raw_counts_long, by = 'libID')
+inner_join(meta, raw_counts_long, by = 'libID')
 ```
 
 > ## Bonus: Other dplyr join functions 
@@ -500,7 +503,7 @@ inner_join(metadata, raw_counts_long, by = 'libID')
 Now let's save our joined data frame to a new variable:
 
 ```{r}
-full_data <- inner_join(metadata, raw_counts_long, by = 'libID')
+full_data <- inner_join(meta, raw_counts_long, by = 'libID')
 ```
 
 Now that we have our metadata joined with our raw count data,

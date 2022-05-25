@@ -323,7 +323,7 @@ what if you want to store attributes about lots of different things, like patien
 For that we use data frames. Let's find out how to read in a dataset as a data frame.
 
 ```{r}
-metadata <- read_csv("0_data/metadata.csv")
+meta <- read_csv("0_data/metadata.csv")
 ```
 
 `read_csv` gave us lots of useful information about the data frame we just loaded!
@@ -343,7 +343,7 @@ TODO
 We can view the whole data frame interactively with `View`:
 
 ```{r eval = FALSE}
-View(metadata)
+View(meta)
 ```
 
 
@@ -358,24 +358,24 @@ View(metadata)
 
 
 ```{r}
-dim(metadata)
-nrow(metadata)
-ncol(metadata)
+dim(meta)
+nrow(meta)
+ncol(meta)
 ```
 
 Looking at just one column:
 
 ```{r}
-metadata$ptID
-metadata['ptID']
+meta$ptID
+meta['ptID']
 ```
 
 Subsetting:
 
 ```{r}
-metadata[2, 'ptID']
-metadata[1:4,]
-metadata[1:4, c('ptID', 'condition')]
+meta[2, 'ptID']
+meta[1:4,]
+meta[1:4, c('ptID', 'condition')]
 ```
 
 
