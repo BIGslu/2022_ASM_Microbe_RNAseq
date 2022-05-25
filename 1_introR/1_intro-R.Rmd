@@ -29,15 +29,15 @@ knitr::opts_knit$set(root.dir = rprojroot::find_rstudio_root_file())
 In this workshop, we will analyze an RNAseq dataset.
 To do this, we'll need two things: data and a platform to analyze the data.
 
-You already [downloaded the data]({{ page.root }}/setup.html). But what platform will we use to analyze the data? We have many options!
+You already [downloaded the data](0_welcome/0_install.html). But what platform will we use to analyze the data? We have many options!
 
 We could try to use a spreadsheet program like Microsoft Excel or Google sheets that have limited access, less flexibility, and don't easily allow for things that are critical to ["reproducible" research](https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1003285), like easily sharing the steps used to explore and make changes to the original data.
 
 Instead, we'll use a programming language to test our hypothesis. Today we will use R, but we could have also used Python for the same reasons we chose R (and we teach workshops for both languages). Both R and Python are freely available, the instructions you use to do the analysis are easily shared, and by using reproducible practices, it's straightforward to add more data or to change settings like colors or the size of a plotting symbol.
 
-To run R, all you really need is the R program, which is available for computers running the Windows, Mac OS X, or Linux operating systems. You downloaded R while getting [set up]({{ page.root }}/setup.html) for this workshop.
+To run R, all you really need is the R program, which is available for computers running the Windows, Mac OS X, or Linux operating systems. You downloaded R while getting [set up](0_welcome/0_install.html) for this workshop.
 
-To make your life in R easier, there is a great (and free!) program called RStudio that you also downloaded and used during [set up]({{ page.root }}/setup.html). As we work today, we'll use features that are available in RStudio for writing and running code, managing projects, installing packages, getting help, and much more. It is important to remember that R and RStudio are different, but complementary programs. You need R to use RStudio.
+To make your life in R easier, there is a great (and free!) program called RStudio that you also downloaded and used during [set up](0_welcome/0_install.html). As we work today, we'll use features that are available in RStudio for writing and running code, managing projects, installing packages, getting help, and much more. It is important to remember that R and RStudio are different, but complementary programs. You need R to use RStudio.
 
 To get started, we'll spend a little time getting familiar with the RStudio environment and setting it up to suit your tastes. When you start RStudio, you'll have three panels.
 
@@ -168,8 +168,6 @@ typeof(likes_cats)
 > > #### Solution
 > > When we assign a value to an object, the object stores that value so we can access it later. However, if we store a new value in an object we have already created, it replaces the old value. The `height` object does not change, because we never assign it a new value.
 
-
-
 > #### Guidelines on naming objects
 > - You want your object names to be explicit and not too long.
 > - They cannot start with a number (2x is not valid, but x2 is).
@@ -179,15 +177,14 @@ typeof(likes_cats)
 > - It is recommended to use nouns for object names and verbs for function names.
 > - Be consistent in the styling of your code, such as where you put spaces, how you name objects, etc. Using a consistent coding style makes your code clearer to read for your future self and your collaborators. One popular style guide can be found through the [tidyverse](https://style.tidyverse.org/).
 
-
-Math works the way you'd expect it to (mostly).
+The power of variables is that you can re-use them later!
 
 ```{r}
 cm_per_inch <- 2.54
 height_cm <- height_inches * cm_per_inch
-height_inches2 <- height_cm / cm_per_inch
+height_cm
+height_cm / cm_per_inch
 ```
-
 
 The above variables hold a single value. What if you need multiple values?
 
@@ -201,9 +198,41 @@ fan_settings <- factor(c('low', 'high', 'medium', 'high', 'medium'), levels = c(
 ```
 
 
+## Error messages
+
+Sometimes we make a mistake when writing code, and the code isn't able to run.
+In that case, the code will give us an error message.
+
+An error tells us, "there's something wrong with your code or your data and R didn't do what you asked". 
+A warning tells us, "you might want to know about this issue, but R still did what you asked". 
+You need to fix any errors that arise in order for your code to work.
+Warnings, are probably best to resolve or at least understand why they are coming up.
+
+> ### How can you fix the error messages in these next lines of code?
+> 
+> ```{r, error = TRUE}
+> heihgt_cm
+> 2 + "three"
+> ```
+> 
+> #### Solution
+> 
+> ```{r, error = TRUE}
+> height_cm
+> 2 + 3
+> ```
+
+
 ## Functions
 
-> #### Viewing function documentation
+
+Earlier, the `typeof()` function took the variable we provided and told us the 
+`type` that the variable belonged to.
+A function is a way to re-use code, either written by you or by someone else.
+Functions make it easier to write code because you don't have to re-invent the 
+wheel for certain tasks.
+
+> ### Viewing function documentation
 >
 > Each function has a help page that documents what arguments the function
 > expects and what value it will return. You can bring up the help page a few
@@ -218,7 +247,8 @@ fan_settings <- factor(c('low', 'high', 'medium', 'high', 'medium'), levels = c(
 > **argument** of `type` is the variable name.
 >
 
-The `typeof()` function took the variable we provided and told us the `type` that the variable belonged to.
+Whenever using a funciton, you type the name of the function followed immediately
+by parentheses. Any arguments, or inputs, go between the parentheses.
 
 Do all functions need arguments? Let's test some other functions:
 
@@ -226,7 +256,6 @@ Do all functions need arguments? Let's test some other functions:
   Sys.Date()
   getwd()
 ```
-
 
 While some functions don't need any arguments, in other
 functions we may want to use multiple arguments. When we're using multiple
@@ -250,6 +279,7 @@ sum(5, 6)
 
 
 > #### Position of the arguments in functions
+>
 > Which of the following lines of code will give you an output of 3.14? For the one(s) that don't give you 3.14, what do they give you?
 >
 > ```{r functionPositionExercise, eval = FALSE}
@@ -262,9 +292,7 @@ sum(5, 6)
 > > #### Solution
 > > The 2nd and 3rd lines will give you the right answer because the arguments are named, and when you use names the order doesn't matter. The 1st line will give you 3 because the default number of digits is 0. Then 4th line will give you 2 because, since you didn't name the arguments, x=2 and digits=3.1415.
 
-
 Sometimes it is helpful - or even necessary - to include the argument name, but often we can skip the argument name, if the argument values are passed in a certain order. If all this function stuff sounds confusing, don't worry! We'll see a bunch of examples as we go that will make things clearer.
-
 
 ## Packages
 
@@ -306,8 +334,8 @@ For more information on installation of the `tidyverse`, see the [setup instruct
 > from base R) have a function named `filter()`. By default, R uses the function
 > that was most recently loaded, so if we try using the `filter()` function after
 > loading `tidyverse`, we will be using the `filter()` function > from `dplyr()`.
-
-TODO: explain double-colon syntax
+> You can use double colons (`::`) to specify which package's version of the 
+> function you want to use. This syntax follows the pattern `package::function()`.
 
 
 > #### The tidyverse vs Base R
@@ -320,7 +348,9 @@ TODO: explain double-colon syntax
 
 The variable types we discussed above are useful for simple variables, but
 what if you want to store attributes about lots of different things, like patient samples? 
-For that we use data frames. Let's find out how to read in a dataset as a data frame.
+For that we use data frames. Just about anything that you can store as rows and columns, 
+like in an Excel spreadsheet, are a great use for data frames. 
+Let's find out how to read in a dataset as a data frame.
 
 ```{r}
 meta <- read_csv("0_data/metadata.csv")
@@ -336,9 +366,20 @@ dbl (2): age_dys, total_seq
 lgl (2): RNAseq, methylation
 ```
 
-TODO
-`head()`
-`tail()`
+If you want to take a peak at just the first 10 rows of the data frame, you can do so with
+`head`:
+
+```{r}
+head(meta)
+```
+
+Or to peak at the last 10 rows, use
+`tail()`:
+
+```{r}
+tail(meta)
+```
+
 
 We can view the whole data frame interactively with `View`:
 
@@ -348,6 +389,7 @@ View(meta)
 
 
 > #### Data objects
+>
 > There are many different ways to store data in R. Most objects have a table-like structure with rows and columns. We will refer to these objects generally as "data objects". If you've used R before, you many be used to calling them "data.frames". Functions from the "tidyverse" such as `read_csv` work with objects called "tibbles", which are a specialized kind of "data.frame." Another common way to store data is a "data.table". All of these types of data objects (tibbles, data.frames, and data.tables) can be used with the commands we will learn in this lesson to make plots. We may sometimes use these terms interchangeably.
 >
 > Other functions for reading datasets:
@@ -378,8 +420,14 @@ meta[1:4,]
 meta[1:4, c('ptID', 'condition')]
 ```
 
-
-TODO: force an error to teach warnings/messages/errors
+> ### Subsetting practice
+>
+> How would you subset rows 10 through 15 and the columns for "libID", "methylation", and "total_seq"?
+> 
+> ```{r}
+> meta[10:15, c(1, 8:9)]
+> meta[10:15, c("libID", "methylation", "total_seq")]
+> ```
 
 # *Navigation*
 
