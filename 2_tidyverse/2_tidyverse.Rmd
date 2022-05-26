@@ -80,7 +80,7 @@ Using the *pipe operator* `%>%` and enter command makes our code more readable. 
 
 Since we use the pipe operator so often, there is a keyboard shortcut for it in RStudio. You can press <kdb>Ctrl</kdb>+<kdb>Shift</kdb>+<kdb>M<kdb> on Windows or <kdb>Cmd<kdb>+<kdb>Shift<kdb>+<kdb>M<kdb> on a Mac.
 
-> ## Tip: Saving a new dataframe
+> #### Tip: Saving a new dataframe
 > Notice that when we run the following code, we are not actually saving a new variable: 
 > ```{r Avgage_dysWithPipe3, eval = FALSE}
 > meta %>%
@@ -197,7 +197,7 @@ the value "Media". Comparison operators return TRUE or FALSE. There are many use
 | `>=`     | greater than or equal to |
 
 
-> ### Quotes vs No Quotes
+> #### Quotes vs No Quotes
 >
 > Notice that we put the word "Media" inside quotes. This is because we are not 
 > using a column from inside our data frame. When you need to include actual
@@ -310,7 +310,11 @@ ggplot() +
 
 Excellent. We've now told our plot object where the x and y values are coming
 from and what they stand for. But we haven't told our object how we want it to
-draw the data. There are many different plot types (bar charts, scatter plots,
+draw the data. 
+
+### geom_point
+
+There are many different plot types (bar charts, scatter plots,
 histograms, etc). We tell our plot object what to draw by adding a "geometry"
 ("geom" for short) to our object. We will talk about many different geometries
 today, but for our first plot, let's draw our data using the "points" geometry
@@ -340,6 +344,8 @@ ggplot() +
 So far, we've been using `geom_point()` to plot two continuous (numeric) variables.
 What if we want to plot a categorical variable and a numeric variable?
 
+### geom_boxplot
+
 Using the `meta` data, use ggplot to create a box plot with condition on the x axis and total_seq on the y axis. 
 
 ```{r ggplot-condition-seq}
@@ -350,6 +356,8 @@ meta %>%
 ```
 
 This type of visualization makes it easy to compare the range and spread of values across groups. The "middle" 50% of the data is located inside the box and outliers that are far away from the central mass of the data are drawn as points.
+
+### geom_col
 
 Another way to plot a categorical and a continuous variable is with a bar plot.
 
@@ -420,6 +428,8 @@ We now have our first data cleaning plot, the total number of sequences per libr
 
 ### Saving plots
 
+If we want to share our plots with other people or put them in manuscripts,
+we're going to need to make them a little prettier and save them to our computers.
 Let's make it pretty and then save the plot!
 
 Add labels:
@@ -464,17 +474,30 @@ ggsave("sequences_per_library.png", plot = seq_per_lib_plot)
 
 ### pivot
 
-Data comes in many shapes and sizes, and one way we classify data is either "wide" or "long." Data that is "long" has one row per observation. The metadata is in a long format. We have one row for each patient sample and each variable is in a different column. We might describe this data as "tidy" because it makes it easy to work with `ggplot2` and `dplyr` functions (this is where the "tidy" in "tidyverse" comes from). As tidy as it may be, sometimes we may want our data in a "wide" format. Typically in "wide" format each row represents a group of observations and each value is placed in a different column rather than a different row. For example maybe we want only one row per country and want to spread the life expectancy values into different columns (one for each year).
+Data comes in many shapes and sizes, and one way we classify data is either
+"wide" or "long." Data that is "long" has one row per observation. The metadata
+is in a long format. We have one row for each patient sample and each variable
+is in a different column. We might describe this data as "tidy" because it makes
+it easy to work with `ggplot2` and `dplyr` functions (this is where the "tidy"
+in "tidyverse" comes from). As tidy as it may be, sometimes we may want our data
+in a "wide" format. Typically in "wide" format each row represents a group of
+observations and each value is placed in a different column rather than a
+different row. For example maybe we want only one row per country and want to
+spread the life expectancy values into different columns (one for each year).
 
-The `tidyr` package contains the functions `pivot_wider` and `pivot_longer` that make it easy to switch between the two formats. The `tidyr` package is included in the `tidyverse` package so we don't need to do anything to load it.
+The `tidyr` package contains the functions `pivot_wider` and `pivot_longer` that
+make it easy to switch between the two formats. The `tidyr` package is included
+in the `tidyverse` package so we don't need to do anything to load it.
 
 #### pivot_wider
 
-For each patient, we have two samples: `Media` and `Mtb`. 
-In the metadata, the only difference in these two conditions is the `libID` column (which is redundant with the `ptID` and `condition`) and the `total_seq` column.
-We can take the condition column and create two new columns, one with the total seqs in the media sample and one with the total seqs in the mtb sample. 
-This is called "pivoting" the data frame "wider" because we rearrange it by creating an additional column and making it have fewer rows.
-Let's try it!
+For each patient, we have two samples: `Media` and `Mtb`. In the metadata, the
+only difference in these two conditions is the `libID` column (which is
+redundant with the `ptID` and `condition`) and the `total_seq` column. We can
+take the condition column and create two new columns, one with the total seqs in
+the media sample and one with the total seqs in the mtb sample. This is called
+"pivoting" the data frame "wider" because we rearrange it by creating an
+additional column and making it have fewer rows. Let's try it!
 
 ```{r}
 meta %>% 
@@ -522,7 +545,7 @@ meta_wide %>%
                names_to = 'condition', values_to = 'total_seq')
 ```
 
-### sequence data
+##### sequence data
 
 So far, we've been working with just the metadata. But this workshop is about 
 analyzing RNAseq data, so let's start working with actual sequencing data.
@@ -594,6 +617,8 @@ we're ready to clean and analyze it!
 
 ## Using our joined dataset
 
+Let's find out which genes had the highest raw counts.
+
 ```{r}
 top_10_abundant_genes <- full_data %>% 
   filter(condition == 'Media') %>% 
@@ -603,6 +628,8 @@ top_10_abundant_genes <- full_data %>%
   slice_max(order_by = med_raw_count, n = 10)
 top_10_abundant_genes
 ```
+
+Now let's make a boxplot with only those genes.
 
 ```{r top-10-boxplot}
 full_data %>% 
@@ -615,7 +642,7 @@ full_data %>%
   labs(title = 'Top 10 most abundant genes')
 ```
 
-Let's try plotting just interferon 1 gamma:
+Try plotting just interferon 1 gamma for each patient:
 
 ```{r ifng-col}
 full_data %>% 
