@@ -15,13 +15,13 @@ See the workshop schedule times [here](outline.md).
 
 ## Instructors
 
-[Kim Dill-McFarland, PhD](https://kdillmcfarland.github.io/) is a Senior Bioinformatician in the Div of Allergy and Infectious Diseases at the U of Washington. Kim leads a team of bioinformaticians who use sequencing and other high-throughput techniques to research how the human immune system responds to diseases like tuberculosis, asthma, and COVID. Kim has been coding in R for more than 10 years and taught R as an Instructor at the U of British Columbia as well as volunteer for the Carpentries and RLadies.
+[Kim Dill-McFarland, PhD](https://kdillmcfarland.github.io/) is a Senior Bioinformatician in the Div of Allergy and Infectious Diseases at the U of Washington. She received her PhD in microbiology from the U of Wisconsin-Madison. Kim now leads a team of bioinformaticians who use sequencing and other high-throughput techniques to research how the human immune system responds to diseases like tuberculosis, asthma, and COVID. Kim has been coding in R for more than 10 years and taught bioinformatics as an Instructor at the U of British Columbia as well as for the Carpentries and RLadies.
 
-Kelly Sovacool.
+[Kelly Sovacool](https://sovacool.dev/) is a Bioinformatics PhD candidate in Pat Schloss’ lab at the U of Michigan. She develops bioinformatics tools and data analysis pipelines for microbial ecology and host-associated microbiome research. She is a fan of open science, open source software, and reproducible research. When she’s not in the dry lab, you might find her running, cycling, climbing, or volunteering with Girls Who Code.
 
-Holly Hartman, PhD. 
+[Holly Hartman, PhD](https://holly-hartman.com/) is an Assistant Professor in the Dept of Population and Quantitative Health Sciences at Case Western Reserve University. She received my PhD in biostatistics from the U of Michigan. Holly's current work is in understanding systemic drivers of racial disparities in prostate cancer outcomes. She also works on methodological improvements for clinical trial design and collaborates with clinicians to provide better care for patients. Her main goal is to use statistics to identify solutions to health disparities.
 
-Candace Williams,PhD.
+[Candace Williams,PhD](https://github.com/clw224)
 
 ***
 
