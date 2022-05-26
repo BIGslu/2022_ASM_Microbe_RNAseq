@@ -600,12 +600,6 @@ In an "inner join", the new data frame only has those rows where the same key is
 inner_join(meta, count_long, by = 'libID')
 ```
 
-> ## Bonus: Other dplyr join functions 
->
-> Outer joins and can be performed using `left_join()`, `right_join()`, and `full_join()`. In a "left join", if the key is present in the left hand data frame, it will appear in the output, even if it is not found in the the right hand data frame. For a right join, the opposite is true. For a full join, all possible keys are included in the output data frame.
-> 
-> <img src="https://github.com/BIGslu/2022_ASM_Microbe_RNAseq/blob/main/2_tidyverse/images/r-data-analysis/join-outer.png?raw=true" width="400"/>
-
 Now let's save our joined data frame to a new variable:
 
 ```{r}
@@ -614,6 +608,12 @@ full_data <- inner_join(meta, count_long, by = 'libID')
 
 Now that we have our metadata joined with our raw count data,
 we're ready to clean and analyze it!
+
+> #### Bonus: Other dplyr join functions 
+>
+> Outer joins and can be performed using `left_join()`, `right_join()`, and `full_join()`. In a "left join", if the key is present in the left hand data frame, it will appear in the output, even if it is not found in the the right hand data frame. For a right join, the opposite is true. For a full join, all possible keys are included in the output data frame.
+> 
+> <img src="https://github.com/BIGslu/2022_ASM_Microbe_RNAseq/blob/main/2_tidyverse/images/r-data-analysis/join-outer.png?raw=true" width="400"/>
 
 ## Using our joined dataset
 
