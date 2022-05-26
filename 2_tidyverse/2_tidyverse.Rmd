@@ -80,7 +80,7 @@ Using the *pipe operator* `%>%` and enter command makes our code more readable. 
 
 Since we use the pipe operator so often, there is a keyboard shortcut for it in RStudio. You can press <kdb>Ctrl</kdb>+<kdb>Shift</kdb>+<kdb>M<kdb> on Windows or <kdb>Cmd<kdb>+<kdb>Shift<kdb>+<kdb>M<kdb> on a Mac.
 
-> ## Pro tip: Saving a new dataframe
+> ## Tip: Saving a new dataframe
 > Notice that when we run the following code, we are not actually saving a new variable: 
 > ```{r Avgage_dysWithPipe3, eval = FALSE}
 > meta %>%
@@ -91,17 +91,20 @@ Since we use the pipe operator so often, there is a keyboard shortcut for it in 
 > meta_summarized <- meta %>%
 >   summarize(mean_age_days=mean(age_dys))
 > ```
-> Or if we want to change `meta` itself: 
+> Or if we wanted to change `meta` itself: 
 > ```{r overwriteDF, eval = FALSE}
 > meta <- meta %>%
 >   summarize(mean_age_days=mean(age_dys))
 > ```
 > IMPORTANT: This would overwrite the existing `meta` object. 
 > 
-> For now, we will not be saving dataframes, since we are just experimenting with `dplyr` functions, but it will be useful later on in this lesson. 
-> 
+> For now, we will not be saving dataframes, since we are just experimenting 
+> with `dplyr` functions, but it will be useful later on in this lesson. 
 
 ### group_by
+
+If we want to calculate the mean age in days for males and females separately,
+we can use `group_by` before summarize:
 
 ```{r}
 meta %>% 
@@ -109,7 +112,7 @@ meta %>%
   summarize(mean_age_days = mean(age_dys))
 ```
 
-> #### Exercise: gropu_by practice
+> #### Exercise: group_by practice
 > 
 > Try calculating the mean total number of sequences for the Media and Mtb conditions.
 > You'll need to use group_by, summarize, and the mean function

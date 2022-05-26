@@ -1604,8 +1604,7 @@ for it in RStudio. You can press
 <kdb>Ctrl</kdb>+<kdb>Shift</kdb>+<kdb>M<kdb> on Windows or
 <kdb>Cmd<kdb>+<kdb>Shift<kdb>+<kdb>M<kdb> on a Mac.</p>
 <blockquote>
-<h2 id="pro-tip-saving-a-new-dataframe">Pro tip: Saving a new
-dataframe</h2>
+<h2 id="tip-saving-a-new-dataframe">Tip: Saving a new dataframe</h2>
 <p>Notice that when we run the following code, we are not actually
 saving a new variable:</p>
 <pre class="r"><code>meta %&gt;%
@@ -1615,7 +1614,7 @@ actually change <code>meta</code> or save a new dataframe. To save a new
 dataframe, we could run:</p>
 <pre class="r"><code>meta_summarized &lt;- meta %&gt;%
   summarize(mean_age_days=mean(age_dys))</code></pre>
-<p>Or if we want to change <code>meta</code> itself:</p>
+<p>Or if we wanted to change <code>meta</code> itself:</p>
 <pre class="r"><code>meta &lt;- meta %&gt;%
   summarize(mean_age_days=mean(age_dys))</code></pre>
 <p>IMPORTANT: This would overwrite the existing <code>meta</code>
@@ -1627,6 +1626,8 @@ later on in this lesson.</p>
 </div>
 <div id="group_by" class="section level3">
 <h3>group_by</h3>
+<p>If we want to calculate the mean age in days for males and females
+separately, we can use <code>group_by</code> before summarize:</p>
 <pre class="r"><code>meta %&gt;% 
   group_by(sex) %&gt;% 
   summarize(mean_age_days = mean(age_dys))</code></pre>
@@ -1636,7 +1637,7 @@ later on in this lesson.</p>
 ## 1 F             7422.
 ## 2 M             9699.</code></pre>
 <blockquote>
-<h4 id="exercise-gropu_by-practice">Exercise: gropu_by practice</h4>
+<h4 id="exercise-group_by-practice">Exercise: group_by practice</h4>
 <p>Try calculating the mean total number of sequences for the Media and
 Mtb conditions. You’ll need to use group_by, summarize, and the mean
 function</p>
