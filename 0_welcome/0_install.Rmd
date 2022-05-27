@@ -23,6 +23,12 @@ knitr::opts_knit$set(root.dir = rprojroot::find_rstudio_root_file())
 
 # Prior to the workshop, please complete the following:
 
+## Download the data
+
+Please download the data in [0_data.zip](https://github.com/BIGslu/2022_ASM_Microbe_RNAseq/raw/main/0_data/0_data.zip). Then, move 0_data.zip to your Desktop and unzip it (usually double-clicking it will work).
+
+All workshop material and data are available at <https://github.com/BIGslu/2022_ASM_Microbe_RNAseq>.
+
 ## Install R and RStudio
 
 * Install R, <https://cran.r-project.org/index.html>
