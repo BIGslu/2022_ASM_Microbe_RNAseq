@@ -400,7 +400,7 @@ ggplot(PCA.meta, aes(x=PC1, y=PC2)) +
 Write final voom object as `RData`
 
 ```{r}
-save(dat.abund.norm.voom, file = "3_RNAseq_cleaning/dat_voom.RData")
+save(dat.abund.norm.voom, file = "0_data/dat_voom.RData")
 ```
 
 We also save information on a single gene, IFNG, for use in our next section on linear modeling. Note that this combines several of the `tidyverse` functions you saw this morning as well as introduces some new ones.
@@ -421,7 +421,7 @@ IFNG <- as.data.frame(dat.abund.norm.voom$E) %>%
 IFNG
 
 #Save as csv
-write_csv(IFNG, file = "3_RNAseq_cleaning/IFNG.csv")
+write_csv(IFNG, file = "0_data/IFNG.csv")
 ```
 
 # *Navigation*
