@@ -249,7 +249,7 @@ div.tocify {
 <h1 class="title toc-ignore">RNA-seq data cleaning</h1>
 <h3 class="subtitle">Counts to voom</h3>
 <h4 class="author">Kim Dill-McFarland, <a href="mailto:kadm@uw.edu" class="email">kadm@uw.edu</a></h4>
-<h4 class="date">version May 31, 2022</h4>
+<h4 class="date">version June 01, 2022</h4>
 
 </div>
 
@@ -342,9 +342,9 @@ set.seed(651)</code></pre>
 <pre class="r"><code>#Get database
 ensembl &lt;- biomaRt::useEnsembl(biomart=&quot;ensembl&quot;,
                                dataset=&quot;hsapiens_gene_ensembl&quot;,
-                                mirror = &quot;www&quot;)
-
-#Get gene key
+                                mirror = &quot;www&quot;)</code></pre>
+<pre><code>## Ensembl site unresponsive, trying uswest mirror</code></pre>
+<pre class="r"><code>#Get gene key
 key &lt;- biomaRt::getBM(attributes=c(&quot;hgnc_symbol&quot;, &quot;gene_biotype&quot;),
                       mart=ensembl)</code></pre>
 <p>Also, you could extract more than just the biotypes from <code>biomaRt</code>. See all the possible data with <code>listAttributes</code>.</p>
@@ -677,7 +677,7 @@ ggplot(PCA.meta, aes(x=PC1, y=PC2)) +
 <div id="save" class="section level2">
 <h2>Save</h2>
 <p>Write final voom object as <code>RData</code></p>
-<pre class="r"><code>save(dat.abund.norm.voom, file = &quot;3_RNAseq_cleaning/dat_voom.RData&quot;)</code></pre>
+<pre class="r"><code>save(dat.abund.norm.voom, file = &quot;0_data/dat_voom.RData&quot;)</code></pre>
 <p>We also save information on a single gene, IFNG, for use in our next section on linear modeling. Note that this combines several of the <code>tidyverse</code> functions you saw this morning as well as introduces some new ones.</p>
 <pre class="r"><code># Get 
 IFNG &lt;- as.data.frame(dat.abund.norm.voom$E) %&gt;% 
@@ -718,7 +718,7 @@ IFNG</code></pre>
 ## # … with 6 more variables: sex &lt;chr&gt;, ptID_old &lt;chr&gt;, RNAseq &lt;lgl&gt;,
 ## #   methylation &lt;lgl&gt;, total_seq &lt;dbl&gt;, sample.weights &lt;dbl&gt;</code></pre>
 <pre class="r"><code>#Save as csv
-write_csv(IFNG, file = &quot;3_RNAseq_cleaning/IFNG.csv&quot;)</code></pre>
+write_csv(IFNG, file = &quot;0_data/IFNG.csv&quot;)</code></pre>
 </div>
 </div>
 <div id="navigation" class="section level1">
