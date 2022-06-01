@@ -21,7 +21,7 @@ See the workshop schedule times [here](outline.md).
 
 [Holly Hartman, PhD](https://holly-hartman.com/) is an Assistant Professor in the Dept of Population and Quantitative Health Sciences at Case Western Reserve University. She received my PhD in biostatistics from the U of Michigan. Holly's current work is in understanding systemic drivers of racial disparities in prostate cancer outcomes. She also works on methodological improvements for clinical trial design and collaborates with clinicians to provide better care for patients. Her main goal is to use statistics to identify solutions to health disparities.
 
-[Candace Williams,PhD](https://github.com/clw224)
+[Candace Williams, PhD](https://github.com/clw224) is a microbial ecologist at the San Diego Zoo Wildlife Alliance. She received her PhD in Molecular Biology with a minor in statistics at Mississippi State University where she studied the microbiome of the giant and red panda. Candace's current work aims to understand the microbial drivers of wildlife fitness in the growing anthropogenic landscape using multi-omic approaches, integrating both traditional and novel microbiological, analytical chemistry, and endocrinological methods. She is also passionate about open science, making tools/protocols that work for everyone across the globe, training the next generation of scientists through inclusive practices, and her dog Darby (not in any particular order!). 
 
 ***
 
