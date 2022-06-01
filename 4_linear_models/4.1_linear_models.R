@@ -37,7 +37,7 @@ summary(lmMod)
 
 head(modelDat)
 
-lmModBig<- lm(E ~ condition + age_dys + sex, data = modelDat)
+lmModBig<-lm(E ~ condition + age_dys + sex, data = modelDat)
 summary(lmModBig)
 
 AIC(lmMod)
