@@ -45,7 +45,7 @@ library(lmerTest)
 For this section, we're just going to be focusing on one gene, IFNG, which you collapsed into one data frame in the previous section.
 
 ```{r}
-modelDat<-read.csv('3_RNAseq_cleaning/IFNG.csv')
+modelDat<-read_csv('3_RNAseq_cleaning/IFNG.csv')
 ```
 
 Awesome, we have our data! Let's get to the fun part - statistics!
