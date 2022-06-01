@@ -318,6 +318,8 @@ ggplot() +
   lims(x=c(0,1000))
 ```
 
+Note: You will see a warning message with the plot above. This is telling you that some data are not represented in the plot. This is expected here as we've forced the x-axis limits to be 0 to 1000, therefore removing any data with counts higher than 1000. If you see this warning when you're not expecting data to be removed, go back to the data frame and look for `NA` or formatting errors (like a letter in a numeric variable).
+
 `voom` performs both of these steps! We use `voomWithQualityWeights` to additionally calculate sample specific quality weights that can be of use as co-variates in linear modeling.
 
 ```{r voom, fig.height=3.5}
