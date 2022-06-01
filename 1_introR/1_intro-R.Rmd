@@ -88,7 +88,7 @@ Did you notice anything change?
 
 In the lower right corner of your RStudio session, you should notice that your
 Files tab is now your project directory. You'll also see a file called
-un-report.Rproj in that directory.
+2022_ASM_Microbe_RNAseq.Rproj in that directory.
 
 From now on, you should start RStudio by double clicking on that file. This will
 make sure you are in the correct directory when you run your analysis.

@@ -143,6 +143,8 @@ consensus.corr <- duplicateCorrelation(object = dat$E,
 consensus.corr$consensus.correlation
 ```
 
+Note: If you get an error about the package `statmod`, please install this package with `install.packages("statmod")`
+
 Then incorporate this estimate into our model fitting.
 
 ```{r}
