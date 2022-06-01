@@ -249,7 +249,7 @@ div.tocify {
 <h1 class="title toc-ignore">RNA-seq linear modeling</h1>
 <h3 class="subtitle"><code>limma</code> and <code>kimma</code></h3>
 <h4 class="author">Kim Dill-McFarland, <a href="mailto:kadm@uw.edu" class="email">kadm@uw.edu</a></h4>
-<h4 class="date">version May 23, 2022</h4>
+<h4 class="date">version May 27, 2022</h4>
 
 </div>
 
@@ -283,9 +283,11 @@ library(limma)</code></pre>
 <h2>Load data</h2>
 <p>All counts, gene, and sample metadata are contained in a single object.</p>
 <pre class="r"><code>#Attach data
-attach(&quot;3_RNAseq_cleaning/dat_voom.RData&quot;)
-#Rename data object to be shorter
+attach(&quot;0_data/dat_voom.RData&quot;)</code></pre>
+<p>Note how the data object does not appear in the R environment. This is because <code>attach</code> gives you access to the data in R but does not <code>load</code> it into the current environment. We can access the data and do so here to rename it with a shorter name.</p>
+<pre class="r"><code>#Rename data object to be shorter
 dat &lt;- dat.abund.norm.voom</code></pre>
+<p>Now the <code>dat</code> object appears in our current R environment! We can still access <code>dat.abund.norm.voom</code> if we want but don’t need it cluttering up the environment pane.</p>
 </div>
 <div id="modeling-in-limma" class="section level2">
 <h2>Modeling in <code>limma</code></h2>
@@ -443,7 +445,7 @@ full_join(temp, temp2) %&gt;%
                    run.lm = TRUE, run.lme = TRUE,
                    metrics = TRUE)
 
-save(fit_kimma, file=&quot;4_linear_models/kimma_results.RData&quot;)</code></pre>
+save(fit_kimma, file=&quot;0_data/kimma_results.RData&quot;)</code></pre>
 <pre><code>lm model: expression~condition+sex
 lme/lmerel model: expression~condition+sex+(1|ptID)
 Input: 20 libraries from 10 unique patients
@@ -451,7 +453,7 @@ Model: 20 libraries
 Complete: 13419 genes
 Failed: 0 genes</code></pre>
 <p>In the interest of time, we’ve provided the <code>kimma</code> results for you.</p>
-<pre class="r"><code>load(&quot;4_linear_models/kimma_results.RData&quot;)</code></pre>
+<pre class="r"><code>load(&quot;0_data/kimma_results.RData&quot;)</code></pre>
 <p>The <code>kimma</code> output contains 4 data frames: one that matches the <code>limma</code> output and one with fit metrics for each model.</p>
 <pre class="r"><code>names(fit_kimma)</code></pre>
 <pre><code>## [1] &quot;lm&quot;      &quot;lme&quot;     &quot;lm.fit&quot;  &quot;lme.fit&quot;</code></pre>

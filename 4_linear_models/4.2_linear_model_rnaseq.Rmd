@@ -48,10 +48,17 @@ All counts, gene, and sample metadata are contained in a single object.
 
 ```{r}
 #Attach data
-attach("3_RNAseq_cleaning/dat_voom.RData")
+attach("0_data/dat_voom.RData")
+```
+
+Note how the data object does not appear in the R environment. This is because `attach` gives you access to the data in R but does not `load` it into the current environment. We can access the data and do so here to rename it with a shorter name.
+
+```{r}
 #Rename data object to be shorter
 dat <- dat.abund.norm.voom
 ```
+
+Now the `dat` object appears in our current R environment! We can still access `dat.abund.norm.voom` if we want but don't need it cluttering up the environment pane.
 
 ## Modeling in `limma`
 ### Simple linear regression in `limma`
@@ -202,7 +209,7 @@ fit_kimma <- kmFit(dat = dat,
                    run.lm = TRUE, run.lme = TRUE,
                    metrics = TRUE)
 
-save(fit_kimma, file="4_linear_models/kimma_results.RData")
+save(fit_kimma, file="0_data/kimma_results.RData")
 ```
 
 ```
@@ -217,7 +224,7 @@ Failed: 0 genes
 In the interest of time, we've provided the `kimma` results for you.
 
 ```{r}
-load("4_linear_models/kimma_results.RData")
+load("0_data/kimma_results.RData")
 ```
 
 The `kimma` output contains 4 data frames: one that matches the `limma` output and one with fit metrics for each model.
