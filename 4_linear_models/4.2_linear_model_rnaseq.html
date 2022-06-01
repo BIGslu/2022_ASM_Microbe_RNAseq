@@ -249,7 +249,7 @@ div.tocify {
 <h1 class="title toc-ignore">RNA-seq linear modeling</h1>
 <h3 class="subtitle"><code>limma</code> and <code>kimma</code></h3>
 <h4 class="author">Kim Dill-McFarland, <a href="mailto:kadm@uw.edu" class="email">kadm@uw.edu</a></h4>
-<h4 class="date">version May 23, 2022</h4>
+<h4 class="date">version May 31, 2022</h4>
 
 </div>
 
@@ -387,6 +387,7 @@ head(fdr_limma)</code></pre>
                                        block = dat$targets$ptID)
 consensus.corr$consensus.correlation</code></pre>
 <pre><code>## [1] 0.3925634</code></pre>
+<p>Note: If you get an error about the package <code>statmod</code>, please install this package with <code>install.packages(&quot;statmod&quot;)</code></p>
 <p>Then incorporate this estimate into our model fitting.</p>
 <pre class="r"><code># Fit model
 fit_limma2 &lt;- lmFit(object = dat$E, design = mm_limma,
