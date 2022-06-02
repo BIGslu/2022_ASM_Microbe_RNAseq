@@ -1,0 +1,49 @@
+## Intro R
+
+typeof( ) returns integer for factors because under the hood, R stores factors as 1, 2, 3... for the levels and then an additional attribute with what the numeric levels mean. For example the following is stored in R as c(1,2,1) with R knowing that 1 = A and 2 = B
+  my_factor <- factor(c("A", "B", "A"), levels = c("A", "B"))
+-- If you want to see if something is a factor, you can use class( ) similar to typeof( )
+-- You can also type attributes() to see all of an object's attributes
+
+## Intro tidyverse
+
+for the last example, the code was, but it looks like there are some F's and 20's in the dataframe?
+  meta %>% filter (sex == "M" | age_yrs >= 21)
+-- You use the OR function which is '|', so if the participant is a female, but she's over 21, she is included.
+
+her tibble had the negative values in red, how does one set that in their global R?
+-- Default when you use the tidyverse
+
+
+## RNA-seq data cleaning
+
+is 'scale.' what allows us to use a non-normal distribution? (I assume vs. using 'scale'?)
+-- scale = TRUE is recommended because it standardizes the input data so that it has zero mean and variance before doing the PCA. Given the zero-inflated data common to RNAseq datasets this allows that the magnitude of certain variables not to dominate associations between variables
+-- this information [in scale.] is passed into scale [in base R]
+
+What would an outlier look like on a PCA plot? Like, how far away does a point need to be to be considered an outlier?
+-- There isn’t a single accepted definition of what makes something an outlier. Some people define them "by eye", but that’s not very quantitative. Here, we use the mean and standard deviation to define outliers, with an outlier being greater than 3 standard deviations from the mean.
+
+min.sample shouldn’t be less than what?
+-- min.sample shouldn’t be less than the value of smallest experimental group.
+
+Is there a general rule of how many counts you should aim for per sample to be considered "good" data?
+-- At least a million sequence counts / sample post-filtering for human. This can be variable depending on organism. However, there is wiggle-room based on how well the other quality metrics look.
+
+I think DESeq2 uses log geometric mean for normalization instead of TMM. Is one better than the other?
+-- if you are using DESeq2 use their normalization, but if you are using limma/voom, TMM is recommended.
+
+## Linear modeling 
+
+for fdr_limma I don’t have a column for gene which causes a downstream problem. How was this done?
+-- topTable( ) has the info in the rownames. Or you can use extract_lmFit( ) instead
+
+## Errors
+
+I got a + instead of > in console. How can I go back?
+-- You likely didn’t close a ( ) section. Esc will get you out of it
+
+I'm getting this error message:
+Error in .Call.graphics(C_palette2, .Call(C_palette2, NULL)) :
+  invalid graphics state
+-- Clear :broom: the plots pane and try another plot
