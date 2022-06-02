@@ -4,12 +4,16 @@ Welcome! This workshop takes you through RNA-seq differential gene expression an
 
 ## Outline
 
-* [Setup and installation][lesson0]
-* [Intro to R and RStudio][lesson1]
-* [Intro to the tidyverse][lesson2]
-* [RNA-seq data cleaning][lesson3]
-* [Linear modeling][lesson4.1]
-* [RNA-seq linear modeling][lesson4.2]
+* [Entire workshop][workshop]
+
+Each lesson
+
+* [0: Setup and installation][lesson0]
+* [1: Intro to R and RStudio][lesson1]
+* [2: Intro to the tidyverse][lesson2]
+* [3: RNA-seq data cleaning][lesson3]
+* [4.1: Linear modeling][lesson4.1]
+* [4.2: RNA-seq linear modeling][lesson4.2]
 
 ## Instructors
 
@@ -29,3 +33,4 @@ Welcome! This workshop takes you through RNA-seq differential gene expression an
 [lesson3]: https://bigslu.github.io/2022_ASM_Microbe_RNAseq/3_RNAseq_cleaning/3_RNAseq_cleaning.html
 [lesson4.1]: https://bigslu.github.io/2022_ASM_Microbe_RNAseq/4_linear_models/4.1_linear-models.html
 [lesson4.2]: https://bigslu.github.io/2022_ASM_Microbe_RNAseq/4_linear_models/4.2_linear_model_rnaseq.html
+[workshop]: https://bigslu.github.io/2022_ASM_Microbe_RNAseq/RNAseq_analysis_R.html
