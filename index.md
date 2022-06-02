@@ -25,6 +25,24 @@ Each lesson
 
 [Candace Williams, PhD](https://github.com/clw224) is a microbial ecologist at the San Diego Zoo Wildlife Alliance. She received her PhD in Molecular Biology with a minor in statistics at Mississippi State University where she studied the microbiome of the giant and red panda. Candace's current work aims to understand the microbial drivers of wildlife fitness in the growing anthropogenic landscape using multi-omic approaches, integrating both traditional and novel microbiological, analytical chemistry, and endocrinological methods. She is also passionate about open science, making tools/protocols that work for everyone across the globe, training the next generation of scientists through inclusive practices, and her dog Darby (not in any particular order!). 
 
+
+## Additional resources
+
+#### General workshops 
+
+* [The Carpentries](https://carpentries.org/workshops/#workshop-curriculum) for workshops on R, python, command line, git, and more! Introductory through intermediate content.
+* [EDUCE](https://educe-ubc.github.io/workshops/) for R workshops using microbial ecology data. Intro R, tidyverse, reproducible research, and statistics.
+
+#### RNA-seq data analysis
+
+* [SEAsnake](https://bigslu.github.io/SEAsnake/vignette/SEAsnake_vignette.html) for processing fastq sequences to counts data used in this workshop
+    * Software at <https://github.com/BIGslu/SEAsnake>
+* [limma](http://bioconductor.org/packages/devel/bioc/vignettes/limma/inst/doc/usersguide.pdf) for linear modeling (Chapter 15: RNA-Seq Data)
+    * [voom weights](https://genomebiology.biomedcentral.com/articles/10.1186/gb-2014-15-2-r29) for correcting for sample and gene quality
+* [dream](https://www.bioconductor.org/packages/devel/bioc/vignettes/variancePartition/inst/doc/dream.html) for paired sample designs
+* [kimma](https://github.com/BIGslu/tutorials/blob/main/RNAseq/3.Hawn_RNAseq_voom.to.DEG.pdf) for flexible model design
+
+
 ***
 
 [lesson0]: https://bigslu.github.io/2022_ASM_Microbe_RNAseq/0_welcome/0_install.html
